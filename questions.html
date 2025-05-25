@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Multi-Step</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #FAF6E9;
+      color: #333;
+    }
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    h1 {
+      font-family: 'Georgia', serif;
+      font-weight: normal;
+    }
+    .choice-btn {
+      color: #537D5D !important;
+      font-family: 'Georgia', serif;
+    }
+    .choice-btn.active {
+      background-color: #537D5D !important;
+      color: white !important;
+    }
+  </style>
+</head>
+<body class="h-screen px-6 py-6 flex flex-col items-center">
+
+  <!-- Header -->
+  <div class="w-full max-w-md">
+    <div class="flex justify-between items-center">
+      <button onclick="goBack()" class="text-xl">&#8592;</button>
+      <div class="flex justify-center w-full -ml-6">
+        <div class="flex space-x-1">
+          <!-- Progress bar -->
+          <div id="progress-bar" class="flex space-x-1">
+            <!-- Dots will be rendered here -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center font-poppins text-sm text-[#4B4B4B] mt-2">Ayo berkenalan lebih dekat!</div>
+  </div>
+
+  <!-- Content - Posisi lebih ke atas dan tinggi diperbesar -->
+  <div id="form-step" class="flex-grow flex flex-col items-center text-center mt-8 min-h-[60vh] px-4">
+    <!-- dynamic content here -->
+  </div>
+
+  <!-- Footer - Posisi lebih ke atas -->
+  <div class="mt-auto mb-4 max-w-md mx-auto w-full">
+    <p class="text-xs font-poppins text-center text-[#4B4B4B] mb-2">
+      Kami menggunakan informasi ini untuk menghitung dan memberikan Anda rekomendasi harian.
+    </p>
+    <button onclick="nextStep()" class="w-full py-3 bg-[#DDD5A7] text-[#537D5D] font-poppins font-semibold rounded-lg uppercase text-sm">
+      SELANJUTNYA
+    </button>
+  </div>
+
+<script>
+  const steps = [
+    {
+      question: "Berapa usia Anda",
+      type: "input",
+      placeholder: "21",
+      inputType: "number",
+      name: "age"
+    },
+    {
+      question: "Apa jenis kelamin Anda?",
+      type: "choice",
+      choices: ["Laki-laki", "Perempuan"],
+      name: "gender"
+    },
+    {
+      question: "Berapa tinggi badan Anda?",
+      type: "input",
+      placeholder: "175",
+      suffix: "cm",
+      inputType: "number",
+      name: "height"
+    },
+    {
+      question: "Berapa berat badan Anda?",
+      type: "input",
+      placeholder: "60",
+      suffix: "kg",
+      inputType: "number",
+      name: "weight"
+    },
+    {
+      question: "Berapa target berat badan Anda?",
+      type: "input",
+      placeholder: "55",
+      suffix: "kg",
+      inputType: "number",
+      name: "targetWeight"
+    },
+    {
+      question: "Seberapa aktif Anda sehari-hari?",
+      type: "choice",
+      choices: ["Rendah", "Sedang", "Tinggi"],
+      name: "activityLevel"
+    },
+    {
+      question: "Apakah Anda punya riwayat berolahraga?",
+      type: "choice",
+      choices: ["Tidak Pernah", "Jarang", "Sering"],
+      name: "exerciseHistory"
+    },
+    {
+      question: "Apakah Anda sering ngemil/makan pada malam hari?",
+      type: "choice",
+      choices: ["Tidak Pernah", "Jarang", "Sering"],
+      name: "nightSnacking"
+    },
+    {
+      question: "Berapa lama durasi tidur Anda?",
+      type: "input",
+      placeholder: "8",
+      suffix: "jam",
+      inputType: "number",
+      name: "sleepDuration"
+    },
+    {
+      question: "Apa motivasi utama Anda menggunakan program ini?",
+      type: "choice",
+      choices: ["Meningkatkan Berat Badan", "Menurunkan Berat Badan", "Meningkatkan Kebugaran", "Menjaga Kesehatan"],
+      name: "motivation"
+    }
+  ];
+
+  let currentStep = 0;
+  let answers = {};
+  const formStepEl = document.getElementById("form-step");
+  const nextBtn = document.querySelector("button[onclick='nextStep()']");
+
+  function renderProgress() {
+    const bar = document.getElementById("progress-bar");
+    bar.innerHTML = "";
+    for (let i = 0; i < steps.length; i++) {
+      const span = document.createElement("span");
+      span.className = "w-4 h-1 rounded";
+      span.style.backgroundColor = i <= currentStep ? "#537D5D" : "#DDD5A7";
+      bar.appendChild(span);
+    }
+  }
+
+  function renderStep() {
+    const step = steps[currentStep];
+    formStepEl.innerHTML = `<h1 class="text-2xl text-center mb-6">${step.question}</h1>`;
+    nextBtn.disabled = true;
+    nextBtn.classList.add("opacity-50", "cursor-not-allowed");
+
+    if (step.type === "input") {
+      const inputContainer = document.createElement("div");
+      inputContainer.className = "w-full max-w-md mx-auto"; // Memperlebar container input
+      
+      const input = document.createElement("input");
+      input.type = step.inputType;
+      input.placeholder = step.placeholder;
+      input.value = step.placeholder; // Menambahkan nilai default
+      input.className = "w-full text-center py-4 px-3 border border-[#537D5D] rounded-lg text-[#537D5D] text-2xl focus:outline-none mb-2"; // Memperbesar input
+      input.oninput = () => {
+        answers[step.name] = input.value;
+        nextBtn.disabled = !input.value;
+        nextBtn.classList.toggle("opacity-50", !input.value);
+        nextBtn.classList.toggle("cursor-not-allowed", !input.value);
+      };
+      
+      inputContainer.appendChild(input);
+      formStepEl.appendChild(inputContainer);
+      
+      // Aktifkan tombol next karena sudah ada nilai default
+      answers[step.name] = input.value;
+      nextBtn.disabled = false;
+      nextBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      
+      if (step.suffix) {
+        const unit = document.createElement("div");
+        unit.className = "text-[#537D5D] mt-1 text-center";
+        unit.innerText = step.suffix;
+        formStepEl.appendChild(unit);
+      }
+    } else if (step.type === "choice") {
+      const btnGroup = document.createElement("div");
+      btnGroup.className = "w-full max-w-md mx-auto space-y-4"; // Memperlebar container pilihan
+      step.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "w-full border border-[#537D5D] rounded-lg py-4 choice-btn text-lg"; // Memperbesar tombol pilihan
+        btn.textContent = choice;
+        btn.onclick = () => {
+          answers[step.name] = choice;
+          document.querySelectorAll("#form-step button").forEach(b => {
+            b.classList.remove("active");
+          });
+          btn.classList.add("active");
+
+          nextBtn.disabled = false;
+          nextBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        };
+        btnGroup.appendChild(btn);
+      });
+      formStepEl.appendChild(btnGroup);
+    }
+
+    renderProgress();
+    
+    // Set value from answers if exists
+    if (answers[step.name]) {
+      if (step.type === "input") {
+        const input = formStepEl.querySelector("input");
+        input.value = answers[step.name];
+        nextBtn.disabled = false;
+        nextBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      } else if (step.type === "choice") {
+        const buttons = formStepEl.querySelectorAll("button");
+        buttons.forEach(btn => {
+          if (btn.textContent === answers[step.name]) {
+            btn.click();
+          }
+        });
+      }
+    }
+  }
+
+  function nextStep() {
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      renderStep();
+    } else {
+      // Semua langkah selesai
+      formStepEl.innerHTML = `
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">Terima Kasih!</h1>
+        <p class="text-lg text-[#537D5D] mb-6">Profil Anda telah lengkap.</p>
+        <div class="border border-[#537D5D] rounded-lg p-6 w-full">
+          <h2 class="text-xl font-semibold mb-4">Ringkasan Data Anda:</h2>
+          <ul class="text-left">
+            ${Object.entries(answers).map(([key, value]) => 
+              `<li class="mb-2"><span class="font-semibold">${formatKey(key)}:</span> ${value}</li>`
+            ).join('')}
+          </ul>
+        </div>
+      `;
+      nextBtn.textContent = "Selesai";
+      nextBtn.onclick = () => {
+        alert("Data berhasil disimpan!");
+      };
+    }
+  }
+
+  function formatKey(key) {
+    // Mengubah camelCase ke format yang lebih mudah dibaca
+    const keyMapping = {
+        "age": "Usia",
+      "gender": "Jenis Kelamin",
+      "height": "Tinggi Badan",
+      "weight": "Berat Badan",
+      "targetWeight": "Target Berat Badan",
+      "activityLevel": "Tingkat Aktivitas",
+      "exerciseHistory": "Riwayat Olahraga",
+      "nightSnacking": "Kebiasaan Ngemil Malam",
+      "sleepDuration": "Durasi Tidur",
+      "motivation": "Motivasi",
+      "eatingPattern": "Pola Makan",
+      "waterIntake": "Konsumsi Air",
+      "foodAllergies": "Alergi Makanan"
+    };
+    return keyMapping[key] || key;
+  }
+
+  function goBack() {
+    if (currentStep > 0) {
+      currentStep--;
+      renderStep();
+    }
+  }
+
+  // Inisialisasi
+  renderStep();
+</script>
+</body>
+</html>

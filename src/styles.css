@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Georgia', serif;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.bg-cream {
+  background-color: #FAF6E9;
+}
+
+.text-neutral {
+  color: #4B4B4B;
+}
+
+.text-title {
+  @apply text-2xl font-bold text-gray-900 mb-6;
+}
+
+.input-usia {
+  @apply w-full text-center py-3 border rounded-lg text-xl font-semibold focus:outline-none;
+  border-color: #537D5D;
+  color: #537D5D;
+}
+
+.text-note {
+  @apply text-xs text-neutral;
+}
+
+.btn-next {
+  @apply w-full py-3 rounded-lg uppercase text-sm font-semibold font-poppins;
+  background-color: #DDD5A7;
+  color: #537D5D;
+}
+
+.progress-bar {
+  @apply w-1/6 h-[2px] rounded bg-[#DDD5A7];
+}
+
+.progress-bar.active {
+  background-color: #537D5D;
+}
