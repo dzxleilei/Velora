@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Laporan Perkembangan - Velora</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #FAF6E9;
+      color: #333;
+    }
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+    .velora-container {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+    .chart-container {
+      position: relative;
+      height: 200px;
+    }
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+    .progress-ring-circle {
+      transition: stroke-dashoffset 0.5s ease-in-out;
+    }
+    .filter-btn {
+      transition: all 0.3s ease;
+    }
+    .filter-btn.active {
+      background-color: #537D5D;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(83, 125, 93, 0.3);
+    }
+    .metric-card {
+      transition: all 0.3s ease;
+    }
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(83, 125, 93, 0.15);
+    }
+    .trend-up {
+      color: #10B981;
+    }
+    .trend-down {
+      color: #EF4444;
+    }
+    .trend-stable {
+      color: #6B7280;
+    }
+    .navbar-icon {
+      transition: all 0.2s ease-in-out;
+    }
+    .navbar-item.active .navbar-icon {
+      color: #537D5D;
+      transform: scale(1.1);
+    }
+    .navbar-item.active .navbar-text {
+      color: #537D5D;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="velora-container pb-20">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 bg-white shadow-sm">
+      <button onclick="goBack()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#537D5D" stroke-width="2">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+      </button>
+      <h1 class="text-lg font-semibold text-[#537D5D]">Laporan Perkembangan</h1>
+      <div class="w-10"></div>
+    </div>
+
+    <div class="p-6 space-y-6">
+      <!-- Filter Bulan -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-[#537D5D] mb-4">Filter Periode</h2>
+        <div class="flex gap-2 overflow-x-auto pb-2">
+          <button class="filter-btn px-4 py-2 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm font-medium text-[#537D5D] whitespace-nowrap active" onclick="filterMonth(this, '2025-06')">
+            Juni 2025
+          </button>
+          <button class="filter-btn px-4 py-2 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm font-medium text-[#537D5D] whitespace-nowrap" onclick="filterMonth(this, '2025-05')">
+            Mei 2025
+          </button>
+          <button class="filter-btn px-4 py-2 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm font-medium text-[#537D5D] whitespace-nowrap" onclick="filterMonth(this, '2025-04')">
+            April 2025
+          </button>
+          <button class="filter-btn px-4 py-2 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm font-medium text-[#537D5D] whitespace-nowrap" onclick="filterMonth(this, '2025-03')">
+            Maret 2025
+          </button>
+        </div>
+      </div>
+
+      <!-- Ringkasan Bulan Ini -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center mb-4">
+          <img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2">
+          <h2 class="text-lg font-semibold text-[#537D5D]">Ringkasan Juni 2025</h2>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="metric-card text-center p-4 bg-gradient-to-br from-[#537D5D] to-[#7BA05B] rounded-xl text-white">
+            <div class="text-2xl font-bold mb-1">-2.5</div>
+            <div class="text-sm font-poppins">kg Turun</div>
+            <div class="text-xs opacity-80 mt-1">▼ 4.2% dari bulan lalu</div>
+          </div>
+          <div class="metric-card text-center p-4 bg-gradient-to-br from-[#DDD5A7] to-[#D4CB98] rounded-xl text-[#537D5D]">
+            <div class="text-2xl font-bold mb-1">18</div>
+            <div class="text-sm font-poppins">Hari Konsisten</div>
+            <div class="text-xs opacity-80 mt-1">▲ 12% dari bulan lalu</div>
+          </div>
+          <div class="metric-card text-center p-4 bg-white border-2 border-[#DDD5A7] rounded-xl">
+            <div class="text-2xl font-bold mb-1 text-[#537D5D]">1,620</div>
+            <div class="text-sm font-poppins text-gray-600">Rata-rata Kalori</div>
+            <div class="text-xs text-gray-500 mt-1">Target: 1,593 kcal</div>
+          </div>
+          <div class="metric-card text-center p-4 bg-white border-2 border-[#DDD5A7] rounded-xl">
+            <div class="text-2xl font-bold mb-1 text-[#537D5D]">85%</div>
+            <div class="text-sm font-poppins text-gray-600">Pencapaian Target</div>
+            <div class="text-xs text-gray-500 mt-1">▲ 8% dari bulan lalu</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grafik Berat Badan -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-[#537D5D] mb-4">Perkembangan Berat Badan</h2>
+        <div class="chart-container mb-4">
+          <svg width="100%" height="200" viewBox="0 0 350 200" class="overflow-visible">
+            <!-- Grid lines -->
+            <line x1="0" y1="20" x2="350" y2="20" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+            <line x1="0" y1="50" x2="350" y2="50" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+            <line x1="0" y1="80" x2="350" y2="80" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+            <line x1="0" y1="110" x2="350" y2="110" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+            <line x1="0" y1="140" x2="350" y2="140" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+            
+            <!-- Weight progression area -->
+            <path d="M 30 60 Q 80 55 130 45 Q 180 40 230 35 Q 280 30 320 25 L 320 170 L 30 170 Z" fill="rgba(123, 160, 91, 0.2)"/>
+            
+            <!-- Weight progression line -->
+            <path d="M 30 60 Q 80 55 130 45 Q 180 40 230 35 Q 280 30 320 25" stroke="#7BA05B" stroke-width="3" fill="none"/>
+            
+            <!-- Data points -->
+            <circle cx="30" cy="60" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+            <circle cx="80" cy="55" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+            <circle cx="130" cy="45" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+            <circle cx="180" cy="40" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+            <circle cx="230" cy="35" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+            <circle cx="280" cy="30" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+            <circle cx="320" cy="25" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+            
+            <!-- Weight labels -->
+            <text x="30" y="50" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">60kg</text>
+            <text x="130" y="35" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">58.5kg</text>
+            <text x="230" y="25" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">57kg</text>
+            <text x="320" y="15" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">55.5kg</text>
+          </svg>
+        </div>
+        <div class="flex justify-between text-xs text-gray-600 font-poppins">
+          <span>1 Jun</span>
+          <span>8 Jun</span>
+          <span>15 Jun</span>
+          <span>22 Jun</span>
+          <span>30 Jun</span>
+        </div>
+      </div>
+
+      <!-- Grafik Kalori Harian -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-[#537D5D] mb-4">Konsumsi Kalori Harian</h2>
+        <div class="chart-container mb-4">
+          <svg width="100%" height="200" viewBox="0 0 350 200" class="overflow-visible">
+            <!-- Target line -->
+            <line x1="0" y1="100" x2="350" y2="100" stroke="#FFA500" stroke-width="2" stroke-dasharray="8,4"/>
+            <text x="5" y="95" class="text-xs fill-current text-orange-500">Target: 1,593 kcal</text>
+            
+            <!-- Bar chart -->
+            <rect x="20" y="80" width="15" height="90" fill="#7BA05B" opacity="0.8"/>
+            <rect x="45" y="60" width="15" height="110" fill="#537D5D" opacity="0.8"/>
+            <rect x="70" y="90" width="15" height="80" fill="#7BA05B" opacity="0.8"/>
+            <rect x="95" y="70" width="15" height="100" fill="#537D5D" opacity="0.8"/>
+            <rect x="120" y="50" width="15" height="120" fill="#B91C1C" opacity="0.8"/>
+            <rect x="145" y="85" width="15" height="85" fill="#7BA05B" opacity="0.8"/>
+            <rect x="170" y="75" width="15" height="95" fill="#537D5D" opacity="0.8"/>
+            <rect x="195" y="110" width="15" height="60" fill="#7BA05B" opacity="0.8"/>
+            <rect x="220" y="65" width="15" height="105" fill="#537D5D" opacity="0.8"/>
+            <rect x="245" y="80" width="15" height="90" fill="#7BA05B" opacity="0.8"/>
+            <rect x="270" y="90" width="15" height="80" fill="#7BA05B" opacity="0.8"/>
+            <rect x="295" y="70" width="15" height="100" fill="#537D5D" opacity="0.8"/>
+            <rect x="320" y="85" width="15" height="85" fill="#7BA05B" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="flex justify-between text-xs text-gray-600 font-poppins">
+          <span>1</span>
+          <span>5</span>
+          <span>10</span>
+          <span>15</span>
+          <span>20</span>
+          <span>25</span>
+          <span>30</span>
+        </div>
+        <div class="flex justify-center mt-4 space-x-4 text-xs font-poppins">
+          <div class="flex items-center">
+            <div class="w-3 h-3 bg-[#7BA05B] rounded mr-2"></div>
+            <span>Di bawah target</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-3 h-3 bg-[#537D5D] rounded mr-2"></div>
+            <span>Sesuai target</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-3 h-3 bg-[#B91C1C] rounded mr-2"></div>
+            <span>Melebihi target</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analisis Nutrisi -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-[#537D5D] mb-4">Analisis Nutrisi Bulanan</h2>
+        <div class="grid grid-cols-3 gap-4">
+          <!-- Karbohidrat -->
+          <div class="text-center">
+            <div class="relative w-16 h-16 mx-auto mb-2">
+              <svg class="progress-ring" width="64" height="64">
+                <circle cx="32" cy="32" r="28" fill="none" stroke="#F5F5F5" stroke-width="6"/>
+                <circle cx="32" cy="32" r="28" fill="none" stroke="#FFA500" stroke-width="6" 
+                        stroke-dasharray="175.93" stroke-dashoffset="52.78" class="progress-ring-circle"/>
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-sm font-semibold text-[#537D5D]">70%</span>
+              </div>
+            </div>
+            <p class="text-xs font-poppins text-gray-600">Karbohidrat</p>
+            <p class="text-xs text-gray-500">Target: 50%</p>
+          </div>
+          
+          <!-- Protein -->
+          <div class="text-center">
+            <div class="relative w-16 h-16 mx-auto mb-2">
+              <svg class="progress-ring" width="64" height="64">
+                <circle cx="32" cy="32" r="28" fill="none" stroke="#F5F5F5" stroke-width="6"/>
+                <circle cx="32" cy="32" r="28" fill="none" stroke="#FF6B6B" stroke-width="6" 
+                        stroke-dasharray="175.93" stroke-dashoffset="140.74" class="progress-ring-circle"/>
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-sm font-semibold text-[#537D5D]">20%</span>
+              </div>
+            </div>
+            <p class="text-xs font-poppins text-gray-600">Protein</p>
+            <p class="text-xs text-gray-500">Target: 20%</p>
+          </div>
+          
+          <!-- Lemak -->
+          <div class="text-center">
+            <div class="relative w-16 h-16 mx-auto mb-2">
+              <svg class="progress-ring" width="64" height="64">
+                <circle cx="32" cy="32" r="28" fill="none" stroke="#F5F5F5" stroke-width="6"/>
+                <circle cx="32" cy="32" r="28" fill="none" stroke="#7BA05B" stroke-width="6" 
+                        stroke-dasharray="175.93" stroke-dashoffset="158.34" class="progress-ring-circle"/>
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-sm font-semibold text-[#537D5D]">10%</span>
+              </div>
+            </div>
+            <p class="text-xs font-poppins text-gray-600">Lemak</p>
+            <p class="text-xs text-gray-500">Target: 30%</p>
+          </div>
+        </div>
+        
+        <div class="mt-4 p-3 bg-[#FAF6E9] rounded-lg">
+          <p class="text-sm font-poppins text-[#537D5D] font-semibold mb-1">Rekomendasi Nutrisi:</p>
+          <ul class="text-xs text-gray-600 space-y-1">
+            <li>• Kurangi konsumsi karbohidrat sebesar 20%</li>
+            <li>• Pertahankan asupan protein yang sudah baik</li>
+            <li>• Tingkatkan konsumsi lemak sehat sebesar 20%</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Pencapaian Mingguan -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-[#537D5D] mb-4">Pencapaian Mingguan</h2>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+            <div class="flex items-center">
+              <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-poppins text-sm font-medium">Minggu 1</p>
+                <p class="text-xs text-gray-600">1-7 Juni</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-semibold text-green-600">100%</p>
+              <p class="text-xs text-gray-600">7/7 hari</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
+            <div class="flex items-center">
+              <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-poppins text-sm font-medium">Minggu 2</p>
+                <p class="text-xs text-gray-600">8-14 Juni</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-semibold text-blue-600">86%</p>
+              <p class="text-xs text-gray-600">6/7 hari</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg">
+            <div class="flex items-center">
+              <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center mr-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-poppins text-sm font-medium">Minggu 3</p>
+                <p class="text-xs text-gray-600">15-21 Juni</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-semibold text-yellow-600">71%</p>
+              <p class="text-xs text-gray-600">5/7 hari</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
+            <div class="flex items-center">
+              <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-poppins text-sm font-medium">Minggu 4</p>
+                <p class="text-xs text-gray-600">22-28 Juni</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-semibold text-purple-600">57%</p>
+              <p class="text-xs text-gray-600">4/7 hari</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tombol Kembali ke Dashboard -->
+      <div class="pb-4">
+        <a href="dashboard.html" class="block w-full py-4 bg-[#DDD5A7] text-[#537D5D] font-poppins font-semibold rounded-lg uppercase text-sm shadow-sm hover:bg-[#D4CB98] transition-colors text-center">
+          KEMBALI KE DASHBOARD
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-200 px-6 py-2 shadow-lg">
+    <div class="flex justify-around items-center">
+      <!-- Dashboard -->
+      <button onclick="location.href='dashboard.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins">Dashboard</span>
+      </button>
+
+      <!-- Makanan -->
+      <button onclick="location.href='food.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+          <line x1="6" y1="1" x2="6" y2="4"/>
+          <line x1="10" y1="1" x2="10" y2="4"/>
+          <line x1="14" y1="1" x2="14" y2="4"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins text-gray-500">Makanan</span>
+      </button>
+
+      <!-- Laporan -->
+      <button onclick="location.href='report.html'" class="navbar-item active flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3v18h18"/>
+          <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins">Laporan</span>
+      </button>
+
+      <!-- Profil -->
+      <button onclick="location.href='profile.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins text-gray-500">Profil</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    let currentMonth = '2025-06';
+    
+    // Sample data for different months
+    const monthData = {
+      '2025-06': {
+        weightLoss: -2.5,
+        consistentDays: 18,
+        avgCalories: 1620,
+        achievement: 85,
+        monthName: 'Juni 2025'
+      },
+      '2025-05': {
+        weightLoss: -1.8,
+        consistentDays: 22,
+        avgCalories: 1580,
+        achievement: 92,
+        monthName: 'Mei 2025'
+      },
+      '2025-04': {
+        weightLoss: -2.1,
+        consistentDays: 20,
+        avgCalories: 1610,
+        achievement: 88,
+        monthName: 'April 2025'
+      },
+      '2025-03': {
+        weightLoss: -1.5,
+        consistentDays: 16,
+        avgCalories: 1650,
+        achievement: 78,
+        monthName: 'Maret 2025'
+      }
+    };
+
+    function goBack() {
+      window.history.back();
+    }
+
+    function filterMonth(btn, month) {
+      // Remove active class from all filter buttons
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      // Add active class to selected button
+      btn.classList.add('active');
+      
+      currentMonth = month;
+      updateData();
+    }
+
+    function updateData() {
+      const data = monthData[currentMonth];
+      if (!data) return;
+
+      // Update summary title
+      document.querySelector('h2').innerHTML = 
+        `<img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2 inline">Ringkasan ${data.monthName}`;
+
+      // Update metric cards
+      const metricCards = document.querySelectorAll('.metric-card');
+      
+      // Weight loss
+      metricCards[0].querySelector('.text-2xl').textContent = data.weightLoss;
+      
+      // Consistent days
+      metricCards[1].querySelector('.text-2xl').textContent = data.consistentDays;
+      
+      // Average calories
+      metricCards[2].querySelector('.text-2xl').textContent = data.avgCalories.toLocaleString();
+      
+      // Achievement percentage
+      metricCards[3].querySelector('.text-2xl').textContent = data.achievement + '%';
+
+      // Add animation effect
+      metricCards.forEach(card => {
+        card.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          card.style.transform = 'scale(1)';
+        }, 100);
+      });
+    }
+
+    // Initialize with animation
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate metric cards on load
+      const metricCards = document.querySelectorAll('.metric-card');
+      metricCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          card.style.transition = 'all 0.5s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+
+      // Animate progress rings
+      const progressRings = document.querySelectorAll('.progress-ring-circle');
+      progressRings.forEach((ring, index) => {
+        const originalOffset = ring.style.strokeDashoffset || ring.getAttribute('stroke-dashoffset');
+        ring.style.strokeDashoffset = '175.93';
+        setTimeout(() => {
+          ring.style.strokeDashoffset = originalOffset;
+        }, 1000 + index * 200);
+      });
+    });
+  </script>
+</body>
+</html>

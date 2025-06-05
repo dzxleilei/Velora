@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profil - Velora</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #FAF6E9;
+      color: #333;
+    }
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+    .velora-container {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+    .profile-menu-item {
+      transition: all 0.3s ease;
+    }
+    .profile-menu-item:hover {
+      transform: translateX(4px);
+      background-color: #f8f9fa;
+    }
+    .profile-avatar {
+      background: linear-gradient(135deg, #537D5D 0%, #7BA05B 100%);
+    }
+    .input-field {
+      transition: all 0.3s ease;
+    }
+    .input-field:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(83, 125, 93, 0.15);
+    }
+    .modal-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+    }
+    .modal-enter {
+      animation: modalEnter 0.3s ease-out;
+    }
+    @keyframes modalEnter {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .danger-zone {
+      border: 2px dashed #ef4444;
+      background-color: rgba(239, 68, 68, 0.05);
+    }
+    .navbar-icon {
+      transition: all 0.2s ease-in-out;
+    }
+    .navbar-item.active .navbar-icon {
+      color: #537D5D;
+      transform: scale(1.1);
+    }
+    .navbar-item.active .navbar-text {
+      color: #537D5D;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="velora-container pb-20">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 bg-white shadow-sm">
+      <button onclick="goBack()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#537D5D" stroke-width="2">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+      </button>
+      <h1 class="text-lg font-semibold text-[#537D5D]">Profil</h1>
+      <div class="w-10"></div>
+    </div>
+
+    <div class="p-6 space-y-6">
+      <!-- Profile Header -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm text-center">
+        <div class="relative w-20 h-20 mx-auto mb-4">
+            <label for="avatarInput" class="cursor-pointer group block w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-[#537D5D] to-[#7BA05B]">
+                <img id="avatarPreview" src="" alt="Avatar" class="w-full h-full object-cover hidden" />
+                <div id="avatarPlaceholder" class="flex items-center justify-center w-full h-full">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                </div>
+            </label>
+            <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="previewAvatar(event)">
+            </div>  
+        <h2 class="text-xl font-semibold text-[#537D5D] mb-1">CC25-CF268</h2>
+        <p class="text-sm text-gray-600 font-poppins">Bergabung sejak Mei 2025</p>
+      </div>
+
+      <!-- Profile Stats -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-[#537D5D] mb-4">Status Saat Ini</h3>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div class="text-2xl font-bold text-[#537D5D] mb-1">60</div>
+            <div class="text-xs text-gray-600 font-poppins">Berat (kg)</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[#537D5D] mb-1">55</div>
+            <div class="text-xs text-gray-600 font-poppins">Target (kg)</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[#537D5D] mb-1">1593</div>
+            <div class="text-xs text-gray-600 font-poppins">Kalori/hari</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menu Options -->
+      <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div class="profile-menu-item p-4 border-b border-gray-100 cursor-pointer" onclick="openEditProfile()">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-poppins font-medium text-[#537D5D]">Edit Profil</h4>
+                <p class="text-xs text-gray-600 font-poppins">Ubah informasi pribadi</p>
+              </div>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="profile-menu-item p-4 border-b border-gray-100 cursor-pointer" onclick="openEditDiet()">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-poppins font-medium text-[#537D5D]">Edit Data Diet</h4>
+                <p class="text-xs text-gray-600 font-poppins">Ubah target berat badan & kalori</p>
+              </div>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="profile-menu-item p-4 border-b border-gray-100 cursor-pointer" onclick="openResetData()">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                  <path d="M21 3v5h-5"></path>
+                  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                  <path d="M8 16H3v5"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-poppins font-medium text-[#537D5D]">Reset Data Diet</h4>
+                <p class="text-xs text-gray-600 font-poppins">Mulai ulang perjalanan diet</p>
+              </div>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="profile-menu-item p-4 cursor-pointer" onclick="logout()">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16,17 21,12 16,7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-poppins font-medium text-red-600">Keluar</h4>
+                <p class="text-xs text-gray-600 font-poppins">Logout dari akun</p>
+              </div>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Profile Modal -->
+  <div id="editProfileModal" class="fixed inset-0 modal-overlay z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="bg-white rounded-2xl p-6 w-full max-w-sm modal-enter">
+        <h3 class="text-lg font-semibold text-[#537D5D] mb-4">Edit Profil</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-poppins text-gray-700 mb-2">Nama</label>
+            <input type="text" value="CC25-CF268" class="input-field w-full p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D]">
+          </div>
+          <div>
+            <label class="block text-sm font-poppins text-gray-700 mb-2">Email</label>
+            <input type="email" value="user@example.com" class="input-field w-full p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D]">
+          </div>
+          <div>
+            <label class="block text-sm font-poppins text-gray-700 mb-2">Tinggi Badan (cm)</label>
+            <input type="number" value="165" class="input-field w-full p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D]">
+          </div>
+          <div>
+            <label class="block text-sm font-poppins text-gray-700 mb-2">Usia</label>
+            <input type="number" value="25" class="input-field w-full p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D]">
+          </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button onclick="closeModal('editProfileModal')" class="flex-1 py-3 border-2 border-[#DDD5A7] text-[#537D5D] font-poppins font-medium rounded-lg hover:bg-gray-50 transition-colors">
+            Batal
+          </button>
+          <button onclick="saveProfile()" class="flex-1 py-3 bg-[#537D5D] text-white font-poppins font-medium rounded-lg hover:bg-[#4a6b54] transition-colors">
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Diet Modal -->
+  <div id="editDietModal" class="fixed inset-0 modal-overlay z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="bg-white rounded-2xl p-6 w-full max-w-sm modal-enter">
+        <h3 class="text-lg font-semibold text-[#537D5D] mb-4">Edit Data Diet</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-poppins text-gray-700 mb-2">Berat Badan Saat Ini (kg)</label>
+            <input type="number" value="60" step="0.1" class="input-field w-full p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D]">
+          </div>
+          <div>
+            <label class="block text-sm font-poppins text-gray-700 mb-2">Target Berat Badan (kg)</label>
+            <input type="number" value="55" step="0.1" class="input-field w-full p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D]">
+          </div>
+          <div>
+            <label class="block text-sm font-poppins text-gray-700 mb-2">Aktivitas Harian</label>
+            <select class="input-field w-full p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D]">
+              <option>Sedentary (tidak aktif)</option>
+              <option selected>Lightly Active (olahraga ringan)</option>
+              <option>Moderately Active (olahraga sedang)</option>
+              <option>Very Active (olahraga berat)</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button onclick="closeModal('editDietModal')" class="flex-1 py-3 border-2 border-[#DDD5A7] text-[#537D5D] font-poppins font-medium rounded-lg hover:bg-gray-50 transition-colors">
+            Batal
+          </button>
+          <button onclick="saveDiet()" class="flex-1 py-3 bg-[#537D5D] text-white font-poppins font-medium rounded-lg hover:bg-[#4a6b54] transition-colors">
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Data Modal -->
+  <div id="resetDataModal" class="fixed inset-0 modal-overlay z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="bg-white rounded-2xl p-6 w-full max-w-sm modal-enter">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+              <path d="M21 3v5h-5"></path>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+              <path d="M8 16H3v5"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-red-600 mb-2">Reset Data Diet</h3>
+          <p class="text-sm text-gray-600 font-poppins">Apakah Anda yakin ingin mereset semua data diet? Tindakan ini tidak dapat dibatalkan.</p>
+        </div>
+        
+        <div class="danger-zone rounded-lg p-4 mb-6">
+          <div class="flex items-start">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" class="mr-2 mt-0.5 flex-shrink-0">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+              <path d="M12 9v4"/>
+              <path d="m12 17 .01 0"/>
+            </svg>
+            <div>
+              <h4 class="font-poppins font-medium text-red-600 text-sm mb-1">Data yang akan dihapus:</h4>
+              <ul class="text-xs text-red-600 font-poppins space-y-1">
+                <li>• Semua histori makanan</li>
+                <li>• Riwayat berat badan</li>
+                <li>• Progress diet</li>
+                <li>• Target yang sudah ditetapkan</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <button onclick="closeModal('resetDataModal')" class="flex-1 py-3 border-2 border-gray-300 text-gray-700 font-poppins font-medium rounded-lg hover:bg-gray-50 transition-colors">
+            Batal
+          </button>
+          <button onclick="confirmReset()" class="flex-1 py-3 bg-red-600 text-white font-poppins font-medium rounded-lg hover:bg-red-700 transition-colors">
+            Ya, Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-200 px-6 py-2 shadow-lg">
+    <div class="flex justify-around items-center">
+      <!-- Dashboard -->
+      <button onclick="location.href='dashboard.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins text-gray-500">Dashboard</span>
+      </button>
+
+      <!-- Makanan -->
+      <button onclick="location.href='food.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+          <line x1="6" y1="1" x2="6" y2="4"/>
+          <line x1="10" y1="1" x2="10" y2="4"/>
+          <line x1="14" y1="1" x2="14" y2="4"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins text-gray-500">Makanan</span>
+      </button>
+
+      <!-- Laporan -->
+      <button onclick="location.href='report.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3v18h18"/>
+          <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins text-gray-500">Laporan</span>
+      </button>
+
+      <!-- Profil -->
+      <button onclick="location.href='profile.html'" class="navbar-item active flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins">Profil</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+
+    function previewAvatar(event) {
+    const input = event.target;
+    const file = input.files[0];
+    const preview = document.getElementById('avatarPreview');
+    const placeholder = document.getElementById('avatarPlaceholder');
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+      };
+      reader.readAsDataURL(file);
+    } else {
+      preview.classList.add('hidden');
+      placeholder.classList.remove('hidden');
+    }
+  }
+
+    function openEditProfile() {
+      document.getElementById('editProfileModal').classList.remove('hidden');
+    }
+
+    function openEditDiet() {
+      document.getElementById('editDietModal').classList.remove('hidden');
+    }
+
+    function openResetData() {
+      document.getElementById('resetDataModal').classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    function saveProfile() {
+      // Simulate saving profile data
+      alert('Profil berhasil disimpan!');
+      closeModal('editProfileModal');
+    }
+
+    function saveDiet() {
+      // Simulate saving diet data
+      alert('Data diet berhasil disimpan!');
+      closeModal('editDietModal');
+      
+      // Update the stats display
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    }
+
+    function confirmReset() {
+      // Simulate reset process
+      alert('Data diet berhasil direset! Anda akan diarahkan ke halaman setup.');
+      closeModal('resetDataModal');
+      
+      // Redirect to setup or welcome page
+      setTimeout(() => {
+        window.location.href = 'welcome.html';
+      }, 1500);
+    }
+
+    function logout() {
+      if (confirm('Apakah Anda yakin ingin keluar?')) {
+        // Simulate logout process
+        alert('Anda telah keluar. Sampai jumpa!');
+        
+        // Redirect to login page or home
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1000);
+      }
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('modal-overlay')) {
+        e.target.classList.add('hidden');
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+          modal.classList.add('hidden');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

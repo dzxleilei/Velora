@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Velora Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #FAF6E9;
+      color: #333;
+    }
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+    .velora-container {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding-bottom: 90px; /* Space for fixed navbar */
+    }
+    #dateNav::-webkit-scrollbar {
+      display: none;
+    }
+    .navbar-icon {
+      transition: all 0.2s ease-in-out;
+    }
+    .navbar-item.active .navbar-icon {
+      color: #537D5D;
+      transform: scale(1.1);
+    }
+    .navbar-item.active .navbar-text {
+      color: #537D5D;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="velora-container">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6">
+      <button class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#537D5D" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <h1 class="text-lg font-semibold text-[#537D5D] mr-auto ml-4">Today</h1>
+      <div></div>
+    </div>
+
+    <!-- Navigasi Tanggal -->
+    <div id="dateNav" class="flex gap-4 overflow-x-auto px-6 mb-6"></div>
+
+    <!-- Kalori Section -->
+    <div class="mx-6 mb-6 bg-white rounded-2xl p-6 shadow-sm">
+      <div class="flex items-center mb-4">
+        <img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2">
+        <h2 class="text-lg font-semibold text-[#537D5D]">Kalori</h2>
+      </div>
+      <div class="flex justify-between items-center">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-black mb-1">300</div>
+          <div class="text-sm text-gray-600 font-poppins">Makanan</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-black mb-1">122</div>
+          <div class="text-sm text-gray-600 font-poppins">Olahraga</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-black mb-1">1888</div>
+          <div class="text-sm text-gray-600 font-poppins">Tersisa</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rekomendasi Makan Siang -->
+    <div class="mx-6 mb-6 bg-white rounded-2xl p-6 shadow-sm">
+      <div class="flex items-center mb-4">
+        <img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2">
+        <h2 class="text-lg font-semibold text-[#537D5D]">Rekomendasi Makan Siang</h2>
+      </div>
+      <div class="space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="font-poppins text-black text-lg">Soto Banjar</span>
+          <span class="text-sm text-gray-600">280 kcal</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="font-poppins text-black text-lg">Nasi Padang</span>
+          <span class="text-sm text-gray-600">340 kcal</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="font-poppins text-black text-lg">Opor Ayam</span>
+          <span class="text-sm text-gray-600">440 kcal</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rekomendasi Olahraga -->
+    <div class="mx-6 mb-6 bg-white rounded-2xl p-6 shadow-sm">
+      <div class="flex items-center mb-4">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#537D5D" stroke-width="2" class="mr-2">
+          <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 9 5.16.74 9-3.45 9-9V7l-10-5z"/>
+          <path d="M8 11l2 2 4-4"/>
+        </svg>
+        <h2 class="text-lg font-semibold text-[#537D5D]">Rekomendasi Olahraga</h2>
+      </div>
+      <div class="space-y-3">
+        <div class="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-l-4 border-[#7BA05B]">
+          <div>
+            <span class="font-poppins text-black text-lg">Jalan Santai</span>
+            <div class="text-xs text-gray-600 font-poppins">30 menit</div>
+          </div>
+          <span class="text-sm text-[#537D5D] font-semibold">120 kcal</span>
+        </div>
+        <div class="flex justify-between items-center p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border-l-4 border-blue-400">
+          <div>
+            <span class="font-poppins text-black text-lg">Berenang</span>
+            <div class="text-xs text-gray-600 font-poppins">20 menit</div>
+          </div>
+          <span class="text-sm text-blue-600 font-semibold">200 kcal</span>
+        </div>
+        <div class="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border-l-4 border-orange-400">
+          <div>
+            <span class="font-poppins text-black text-lg">Bersepeda</span>
+            <div class="text-xs text-gray-600 font-poppins">25 menit</div>
+          </div>
+          <span class="text-sm text-orange-600 font-semibold">150 kcal</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Histori Berat Badan -->
+    <div class="mx-6 mb-6 bg-white rounded-2xl p-6 shadow-sm">
+      <div class="flex items-center mb-4">
+        <img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2">
+        <h2 class="text-lg font-semibold text-[#537D5D]">Histori Berat Badan</h2>
+      </div>
+      <div class="relative h-32 mb-4">
+        <svg width="100%" height="128" viewBox="0 0 300 128" class="overflow-visible">
+          <line x1="0" y1="20" x2="300" y2="20" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+          <line x1="0" y1="40" x2="300" y2="40" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+          <line x1="0" y1="60" x2="300" y2="60" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+          <line x1="0" y1="80" x2="300" y2="80" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+          <line x1="0" y1="100" x2="300" y2="100" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
+          <path d="M 20 40 Q 80 35 150 55 Q 220 70 280 80 L 280 110 L 20 110 Z" fill="rgba(123, 160, 91, 0.2)"/>
+          <path d="M 20 40 Q 80 35 150 55 Q 220 70 280 80" stroke="#7BA05B" stroke-width="2" fill="none"/>
+          <circle cx="20" cy="40" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+          <circle cx="150" cy="55" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+          <circle cx="280" cy="80" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
+          <text x="20" y="30" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">60kg</text>
+          <text x="150" y="45" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">57.5kg</text>
+          <text x="280" y="70" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">55kg</text>
+        </svg>
+      </div>
+      <div class="flex justify-between text-xs text-gray-600 font-poppins">
+        <span>4 Mei 2025</span>
+        <span>Hari ini</span>
+        <span>10 Jul 2025</span>
+      </div>
+    </div>
+
+    <!-- Tombol Input Makanan -->
+    <div class="mx-6 mb-8">
+      <a href="food.html">
+        <button class="w-full py-4 bg-[#DDD5A7] text-[#537D5D] font-poppins font-semibold rounded-lg uppercase text-sm shadow-sm hover:bg-[#D4CB98] transition-colors">
+          INPUT MAKANAN
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-200 px-6 py-2 shadow-lg">
+    <div class="flex justify-around items-center">
+      <!-- Dashboard -->
+      <button onclick="location.href='dashboard.html'" class="navbar-item active flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins">Dashboard</span>
+      </button>
+
+      <!-- Makanan -->
+      <button onclick="location.href='food.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+          <line x1="6" y1="1" x2="6" y2="4"/>
+          <line x1="10" y1="1" x2="10" y2="4"/>
+          <line x1="14" y1="1" x2="14" y2="4"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins text-gray-500">Makanan</span>
+      </button>
+
+      <!-- Laporan -->
+      <button onclick="location.href='report.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3v18h18"/>
+          <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins text-gray-500">Laporan</span>
+      </button>
+
+      <!-- Profil -->
+      <button onclick="location.href='profile.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
+        <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="navbar-text text-xs font-poppins text-gray-500">Profil</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Scripts -->
+  <script>
+    // Script Tanggal Otomatis
+    const dateNav = document.getElementById("dateNav");
+    const hari = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+    const today = new Date();
+
+    for (let i = -3; i <= 3; i++) {
+      const date = new Date();
+      date.setDate(today.getDate() + i);
+      const day = hari[date.getDay()];
+      const dayNumber = date.getDate();
+      const isToday = date.toDateString() === today.toDateString();
+
+      const dateItem = document.createElement("div");
+      dateItem.className = "flex flex-col items-center text-xs font-poppins text-gray-500 min-w-[40px]";
+
+      const daySpan = document.createElement("span");
+      daySpan.textContent = day;
+
+      const numberSpan = document.createElement("span");
+      numberSpan.textContent = dayNumber;
+      numberSpan.className =
+        "w-8 h-8 flex items-center justify-center rounded-full mt-1 transition-colors duration-200";
+
+      if (isToday) {
+        numberSpan.classList.add("bg-[#537D5D]", "text-white", "font-semibold");
+      } else {
+        numberSpan.classList.add("text-black");
+      }
+
+      dateItem.appendChild(daySpan);
+      dateItem.appendChild(numberSpan);
+      dateNav.appendChild(dateItem);
+    }
+  </script>
+
+</body>
+</html>
