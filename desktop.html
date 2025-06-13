@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <title>Velora - Aplikasi Diet & Nutrisi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #FAF6E9 0%, #F5F1E8 100%);
+      min-height: 100vh;
+    }
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .hero-gradient {
+      background: linear-gradient(135deg, #537D5D 0%, #7BA05B 50%, #A8C686 100%);
+    }
+    
+    .floating-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .floating-animation:nth-child(2) {
+      animation-delay: -2s;
+    }
+    
+    .floating-animation:nth-child(3) {
+      animation-delay: -4s;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    .pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes pulse-glow {
+      from { box-shadow: 0 0 20px rgba(83, 125, 93, 0.3); }
+      to { box-shadow: 0 0 40px rgba(83, 125, 93, 0.6); }
+    }
+    
+    .slide-in {
+      animation: slideIn 0.8s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .feature-card {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .qr-code-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      border: 2px solid rgba(83, 125, 93, 0.2);
+    }
+    
+    .phone-mockup {
+      background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+      border: 8px solid #2d3748;
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+    
+    .phone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: #4a5568;
+      border-radius: 2px;
+    }
+    
+    .phone-mockup::after {
+      content: '';
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 4px;
+      background: #4a5568;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body class="overflow-x-hidden">
+  <!-- Header -->
+  <header class="relative overflow-hidden">
+    <div class="hero-gradient text-white">
+      <!-- Floating Elements -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="floating-animation absolute top-20 left-20 w-20 h-20 bg-white bg-opacity-10 rounded-full"></div>
+        <div class="floating-animation absolute top-40 right-32 w-16 h-16 bg-white bg-opacity-10 rounded-full"></div>
+        <div class="floating-animation absolute bottom-32 left-40 w-12 h-12 bg-white bg-opacity-10 rounded-full"></div>
+      </div>
+      
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div class="text-center slide-in">
+          <div class="flex justify-center mb-8">
+            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center pulse-glow">
+              <img src="/assets/apple-touch-icon.png" alt="Logo" class="w-18 h-18" />
+            </div>
+          </div>
+          
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+            <span class="block">Velora</span>
+            <span class="block text-2xl md:text-3xl lg:text-4xl font-poppins font-light opacity-90">
+              Aplikasi Diet & Nutrisi
+            </span>
+          </h1>
+          
+          <p class="text-xl md:text-2xl font-poppins font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
+            Capai berat badan ideal Anda dengan rekomendasi nutrisi yang dipersonalisasi dan panduan olahraga yang tepat
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Mobile First Notice -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center bg-amber-100 text-amber-800 px-6 py-3 rounded-full font-poppins font-medium">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+        </svg>
+        Aplikasi ini dioptimalkan untuk perangkat mobile
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+      <div class="space-y-8">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold text-[#537D5D] mb-6">
+            Fitur Unggulan Velora
+          </h2>
+          <p class="text-lg text-gray-600 font-poppins leading-relaxed">
+            Velora hadir dengan berbagai fitur canggih untuk membantu Anda mencapai tujuan kesehatan dengan mudah dan menyenangkan.
+          </p>
+        </div>
+
+        <div class="grid gap-6">
+          <div class="feature-card p-6 rounded-2xl">
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-[#537D5D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-[#537D5D] mb-2">Rekomendasi Personal</h3>
+                <p class="text-gray-600 font-poppins">Target kalori dan nutrisi yang disesuaikan dengan profil dan tujuan Anda</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-card p-6 rounded-2xl">
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0v14a2 2 0 01-2 2H9a2 2 0 01-2-2V4m0 0h10"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-[#537D5D] mb-2">Tracking Makanan</h3>
+                <p class="text-gray-600 font-poppins">Catat asupan makanan harian dengan mudah dan akurat</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-card p-6 rounded-2xl">
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-[#537D5D] mb-2">Panduan Olahraga</h3>
+                <p class="text-gray-600 font-poppins">Rekomendasi aktivitas fisik yang sesuai dengan kemampuan Anda</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone Mockup -->
+      <div class="flex justify-center">
+        <div class="phone-mockup w-72 h-[500px] p-4">
+          <div class="w-full h-full bg-gradient-to-br from-[#537D5D] to-[#537D5D] rounded-2xl overflow-hidden">
+            <div class="h-full flex flex-col items-center justify-center text-center p-6">
+              <h3 class="text-2xl font-bold text-[#FAF6E9] mb-2">Velora</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Instructions -->
+    <div class="bg-white rounded-3xl p-8 md:p-12 shadow-xl">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-[#537D5D] rounded-2xl mb-6">
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-[#537D5D] mb-4">
+          Akses Melalui Ponsel Anda
+        </h2>
+        <p class="text-lg text-gray-600 font-poppins max-w-2xl mx-auto leading-relaxed">
+          Untuk pengalaman terbaik, silakan buka Velora melalui browser di ponsel Anda. Aplikasi ini dirancang khusus untuk memberikan kemudahan akses di mana saja dan kapan saja.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <!-- QR Code Section -->
+        <div class="text-center">
+          <div class="qr-code-container inline-block p-8 rounded-2xl mb-6">
+            <div class="w-48 h-48 bg-gray-100 rounded-xl flex items-center justify-center mx-auto">
+              <div class="text-center">
+                <img src="/assets/qrcode.jpg" alt="QR Code" class="w-32 h-32 mx-auto mb-2">
+                <p class="text-sm text-gray-500 font-poppins">QR Code</p>
+                <p class="text-xs text-gray-400 font-poppins">Scan dengan ponsel</p>
+              </div>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 font-poppins">
+            Scan QR code ini dengan kamera ponsel Anda untuk langsung mengakses Velora
+          </p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold text-[#537D5D] mb-6">Cara Mengakses:</h3>
+          
+          <div class="space-y-4">
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-[#537D5D] text-white rounded-full flex items-center justify-center flex-shrink-0 font-poppins font-semibold text-sm">1</div>
+              <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Buka Browser di Ponsel</h4>
+                <p class="text-gray-600 font-poppins text-sm">Gunakan Chrome, Safari, atau browser lainnya di ponsel Anda</p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-[#537D5D] text-white rounded-full flex items-center justify-center flex-shrink-0 font-poppins font-semibold text-sm">2</div>
+              <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Kunjungi Website</h4>
+                <p class="text-gray-600 font-poppins text-sm">Ketik alamat website ini atau scan QR code</p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-[#537D5D] text-white rounded-full flex items-center justify-center flex-shrink-0 font-poppins font-semibold text-sm">3</div>
+              <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Install sebagai App</h4>
+                <p class="text-gray-600 font-poppins text-sm">Tambahkan ke layar utama untuk akses cepat seperti aplikasi native</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-green-50 border border-green-200 rounded-xl p-4 mt-6">
+            <div class="flex items-start space-x-3">
+              <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <div>
+                <h5 class="font-semibold text-green-800 mb-1">Tips:</h5>
+                <p class="text-green-700 font-poppins text-sm">Velora adalah Progressive Web App (PWA) yang dapat diinstall seperti aplikasi mobile biasa tanpa perlu download dari app store.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#537D5D] text-white py-12 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-2xl font-bold mb-4">Velora</h3>
+          <p class="font-poppins text-green-100 leading-relaxed">
+            Aplikasi diet dan nutrisi yang membantu Anda mencapai berat badan ideal dengan cara yang sehat dan berkelanjutan.
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Fitur Utama</h4>
+          <ul class="space-y-2 font-poppins text-green-100">
+            <li>• Rekomendasi Nutrisi Personal</li>
+            <li>• Tracking Kalori Harian</li>
+            <li>• Panduan Olahraga</li>
+            <li>• Monitoring Berat Badan</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Untuk Hasil Terbaik</h4>
+          <ul class="space-y-2 font-poppins text-green-100">
+            <li>• Gunakan di ponsel Anda</li>
+            <li>• Install sebagai PWA</li>
+            <li>• Akses offline tersedia</li>
+            <li>• Sinkronisasi otomatis</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-green-400 border-opacity-20 mt-8 pt-8 text-center">
+        <p class="font-poppins text-green-100">
+          © 2025 Velora. Dirancang untuk kesehatan dan kebugaran Anda.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add scroll animations
+    window.addEventListener('scroll', () => {
+      const elements = document.querySelectorAll('.feature-card');
+      elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    });
+
+    // Initialize feature cards
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'all 0.6s ease';
+    });
+  </script>
+</body>
+</html>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js').then(function (registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        }, function (error) {
+          console.error('Service Worker registration failed:', error);
+        });
+      });
+    }
+  </script>

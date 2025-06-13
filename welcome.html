@@ -6,61 +6,24 @@
   <title>Velora - Rekomendasi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#537D5D" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/assets/icon-512.png" />
+  <link rel="icon" href="/assets/icon-192.png" />
   <style>
-    body {
-      font-family: 'Georgia', serif;
-      background-color: #FAF6E9;
-      color: #333;
-    }
-    .font-poppins {
-      font-family: 'Poppins', sans-serif;
-    }
-    
-    .hero-gradient {
-      background: linear-gradient(135deg, #537D5D 0%, #7BA05B 100%);
-    }
-    
-    .leaf-decoration {
-      opacity: 0.3;
-      position: absolute;
-    }
-    
-    .progress-chart {
-      position: relative;
-      width: 100%;
-      height: 200px;
-    }
-    
-    .chart-area {
-      fill: rgba(83, 125, 93, 0.2);
-    }
-    
-    .chart-line {
-      fill: none;
-      stroke: #537D5D;
-      stroke-width: 3px;
-    }
-    
-    .chart-dot {
-      fill: white;
-      stroke: #537D5D;
-      stroke-width: 3px;
-    }
-    
-    .grid-line {
-      stroke: #e0e0e0;
-      stroke-width: 1;
-      stroke-dasharray: 5,5;
-    }
-    
-    .maintain-area {
-      fill: #D2D0A0;
-      stroke: none;
-    }
-    
-    .nutrition-circle {
-      transition: all 0.3s ease;
-    }
+    body { font-family: 'Georgia', serif; background-color: #FAF6E9; color: #333; }
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+    .hero-gradient { background: linear-gradient(135deg, #537D5D 0%, #7BA05B 100%); }
+    .progress-chart { position: relative; width: 100%; height: 200px; }
+    .chart-area { fill: rgba(83, 125, 93, 0.2); }
+    .chart-line { fill: none; stroke: #537D5D; stroke-width: 3px; }
+    .chart-dot { fill: white; stroke: #537D5D; stroke-width: 3px; }
+    .grid-line { stroke: #e0e0e0; stroke-width: 1; stroke-dasharray: 5,5; }
+    .maintain-area { fill: #D2D0A0; stroke: none; }
+    .nutrition-circle { transition: all 0.3s ease; }
   </style>
 </head>
 <body class="min-h-screen">
@@ -68,24 +31,21 @@
   <!-- Hero Section -->
   <div class="relative overflow-hidden px-6 py-8 text-white" style="background-image: url('assets/bgwelcome.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="absolute inset-0 bg-black bg-opacity-20"></div>
-    
     <div class="text-center relative z-10">
       <h1 class="text-3xl font-bold mb-4">Selamat Datang!</h1>
-      <p class="font-poppins text-sm opacity-90 max-w-sm mx-auto leading-relaxed">
-        CC25-CF268, berikut adalah rekomendasi yang sudah dipersonalisasikan untuk anda.
+      <p id="user-welcome" class="font-poppins text-sm opacity-90 max-w-sm mx-auto leading-relaxed">
+        ..., berikut adalah rekomendasi yang sudah dipersonalisasikan untuk anda.
       </p>
     </div>
   </div>
 
   <!-- Content Section -->
   <div class="px-6 py-6 space-y-6">
-    
     <!-- Weight Progress Chart -->
     <div class="bg-white rounded-2xl p-6 shadow-sm">
       <h2 class="text-xl font-semibold text-[#537D5D] mb-6 text-center">
         Sorotan rekomendasi personalisasi Anda
       </h2>
-      
       <!-- Chart -->
       <div class="mb-6">
         <svg class="progress-chart" viewBox="0 0 320 140" style="width: 100%; height: 140px;">
@@ -95,45 +55,37 @@
           <line x1="0" y1="60" x2="320" y2="60" class="grid-line"/>
           <line x1="0" y1="80" x2="320" y2="80" class="grid-line"/>
           <line x1="0" y1="100" x2="320" y2="100" class="grid-line"/>
-          
           <!-- Maintain area (light green zone at bottom) -->
           <rect x="240" y="80" width="80" height="20" class="maintain-area"/>
-          
           <!-- Chart area fill -->
           <path class="chart-area" d="M 30 30 Q 100 35 160 50 Q 200 70 240 80 L 240 100 L 30 100 Z"/>
-          
           <!-- Chart line -->
           <path class="chart-line" d="M 30 30 Q 100 35 160 50 Q 200 70 240 80"/>
-          
           <!-- Data points (white dots with green border) -->
           <circle cx="30" cy="30" r="5" class="chart-dot"/>
           <circle cx="240" cy="80" r="5" class="chart-dot"/>
-          
           <!-- Weight labels -->
-          <text x="30" y="20" text-anchor="middle" class="text-sm font-semibold" style="fill: #537D5D; font-size: 16px;">60kg</text>
-          <text x="240" y="70" text-anchor="middle" class="text-sm font-semibold" style="fill: #537D5D; font-size: 16px;">55kg</text>
-          
+          <text id="weight-awal" x="30" y="20" text-anchor="middle" class="text-sm font-semibold" style="fill: #537D5D; font-size: 16px;">...</text>
+          <text id="weight-target" x="240" y="70" text-anchor="middle" class="text-sm font-semibold" style="fill: #537D5D; font-size: 16px;">...</text>
           <!-- Pertahankan label -->
           <text x="280" y="95" text-anchor="middle" class="text-xs" style="fill: #537D5D; font-size: 11px; font-weight: 500;">Pertahankan!</text>
-          
           <!-- Date labels -->
           <text x="30" y="125" text-anchor="middle" class="text-xs" style="fill: #666666; font-size: 12px;">Hari ini</text>
-          <text x="240" y="125" text-anchor="middle" class="text-xs" style="fill: #666666; font-size: 12px;">10 Juli 2025</text>
+          <text id="target-date" x="240" y="125" text-anchor="middle" class="text-xs" style="fill: #666666; font-size: 12px;">...</text>
         </svg>
       </div>
-      
       <!-- Recommendations -->
       <div class="space-y-3">
         <div class="flex items-start">
           <div class="w-2 h-2 bg-[#537D5D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
-          <p class="font-poppins text-sm text-[#666666]">
-            Turunkan berat badan lalu fokus untuk mempertahankan progres Anda.
+          <p id="rekomendasi-utama" class="font-poppins text-sm text-[#666666]">
+            ...
           </p>
         </div>
         <div class="flex items-start">
           <div class="w-2 h-2 bg-[#537D5D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
-          <p class="font-poppins text-sm text-[#666666]">
-            Capai berat badan ideal Anda 55kg pada 10 Juli 2025.
+          <p id="rekomendasi-target" class="font-poppins text-sm text-[#666666]">
+            ...
           </p>
         </div>
         <div class="flex items-start">
@@ -156,18 +108,15 @@
       <h2 class="text-lg font-semibold text-[#537D5D] mb-6 text-center">
         Rekomendasi nutrisi Anda
       </h2>
-      
-      <!-- Layout matching the exact design -->
       <div class="flex items-center justify-between">
         <!-- Left side - Fire icon and calories -->
         <div class="flex flex-col items-center">
           <div class="flex items-center mb-[-1px]">
             <img src="assets/fire.png" alt="icon" width="25" height="25" class="mr-1">
           </div>
-          <div class="text-2xl font-bold text-[#537D5D]">1593</div>
+          <div id="target-calories" class="text-2xl font-bold text-[#537D5D]">...</div>
           <div class="text-sm text-[#666666] font-poppins">Kkal</div>
         </div>
-        
         <!-- Right side - Macro circles -->
         <div class="flex space-x-6">
           <!-- Carbs -->
@@ -180,12 +129,11 @@
                         transform="rotate(-90 24 24)"/>
               </svg>
               <div class="absolute inset-0 flex items-center justify-center">
-                <span class="text-xs font-semibold text-[#537D5D]">50%</span>
+                <span id="carb-percent" class="text-xs font-semibold text-[#537D5D]">50%</span>
               </div>
             </div>
             <p class="text-xs font-poppins text-[#666666]">Carbs</p>
           </div>
-          
           <!-- Protein -->
           <div class="text-center">
             <div class="relative w-12 h-12 mx-auto mb-1">
@@ -196,12 +144,11 @@
                         transform="rotate(-90 24 24)"/>
               </svg>
               <div class="absolute inset-0 flex items-center justify-center">
-                <span class="text-xs font-semibold text-[#537D5D]">20%</span>
+                <span id="protein-percent" class="text-xs font-semibold text-[#537D5D]">20%</span>
               </div>
             </div>
             <p class="text-xs font-poppins text-[#666666]">Protein</p>
           </div>
-          
           <!-- Fat -->
           <div class="text-center">
             <div class="relative w-12 h-12 mx-auto mb-1">
@@ -212,14 +159,13 @@
                         transform="rotate(-90 24 24)"/>
               </svg>
               <div class="absolute inset-0 flex items-center justify-center">
-                <span class="text-xs font-semibold text-[#537D5D]">30%</span>
+                <span id="fat-percent" class="text-xs font-semibold text-[#537D5D]">30%</span>
               </div>
             </div>
             <p class="text-xs font-poppins text-[#666666]">Fat</p>
           </div>
         </div>
       </div>
-      
       <p class="text-xs text-center text-[#666666] font-poppins mt-4">
         Sesuaikan target nutrisi Anda kapan saja.
       </p>
@@ -231,9 +177,6 @@
       class="block text-center w-full py-4 bg-[#DDD5A7] text-[#537D5D] font-poppins font-semibold rounded-lg uppercase text-sm shadow-sm hover:bg-[#D4CB98] transition-colors">
       AYO MULAI!
     </a>
-
-
-    
   </div>
 
   <script>
@@ -248,7 +191,86 @@
         }, index * 200);
       });
     });
-  </script>
 
+    // Redirect desktop
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+      window.location.href = "desktop.html";
+    }
+
+    // === Dynamic Data Section ===
+    document.addEventListener("DOMContentLoaded", async function() {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Fetch profile
+      let profile = null;
+      try {
+        const res = await fetch(`https://velora-backend-production.up.railway.app/user-profile/${userId}`);
+        const result = await res.json();
+        if (result.status === "success") {
+          profile = result.data;
+        }
+      } catch (e) {}
+
+      // Log profile untuk debug
+      console.log("Profile data:", profile);
+
+      // Fetch calories recommendation
+      let nutrition = null;
+      try {
+        const res = await fetch(`https://velora-backend-production.up.railway.app/recommendation/${userId}/calories`);
+        const result = await res.json();
+        if (result.status === "success") {
+          nutrition = result.data;
+        }
+      } catch (e) {}
+
+      // Update hero name (cek beberapa kemungkinan nama field)
+      let userName = `User ${userId}`;
+      if (profile) {
+        userName = profile.name || profile.nama || profile.full_name || `User ${userId}`;
+      }
+      document.getElementById("user-welcome").innerHTML =
+        `${userName}, berikut adalah rekomendasi yang sudah dipersonalisasikan untuk anda.`;
+
+      // Update chart labels
+      if (profile) {
+        document.getElementById("weight-awal").textContent = profile.weight_kg + "kg";
+        document.getElementById("weight-target").textContent = profile.target_weight_kg + "kg";
+        // Target date (contoh: 3 bulan dari hari ini)
+        const now = new Date();
+        const targetDate = new Date(now.getFullYear(), now.getMonth() + 3, now.getDate());
+        const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+        document.getElementById("target-date").textContent =
+          `${targetDate.getDate()} ${bulan[targetDate.getMonth()]} ${targetDate.getFullYear()}`;
+        // Rekomendasi utama
+        let motivasi = (profile.motivation || "").toLowerCase();
+        let rekomendasiUtama = "Sesuaikan gaya hidup Anda.";
+        if (motivasi.includes("turun")) {
+          rekomendasiUtama = "Turunkan berat badan lalu fokus untuk mempertahankan progres Anda.";
+        } else if (motivasi.includes("naik")) {
+          rekomendasiUtama = "Naikkan berat badan lalu fokus untuk mempertahankan progres Anda.";
+        } else if (motivasi.includes("kebugaran")) {
+          rekomendasiUtama = "Fokus pada peningkatan kebugaran dan kesehatan Anda.";
+        }
+        document.getElementById("rekomendasi-utama").textContent = rekomendasiUtama;
+        document.getElementById("rekomendasi-target").textContent =
+          `Capai berat badan ideal Anda ${profile.target_weight_kg}kg pada ${document.getElementById("target-date").textContent}.`;
+      }
+
+      // Update nutrition
+      if (nutrition) {
+        document.getElementById("target-calories").textContent = nutrition.target_calories || "...";
+        // Jika backend mengembalikan persentase makro, update juga di sini
+        if (nutrition.carb_percent) document.getElementById("carb-percent").textContent = nutrition.carb_percent + "%";
+        if (nutrition.protein_percent) document.getElementById("protein-percent").textContent = nutrition.protein_percent + "%";
+        if (nutrition.fat_percent) document.getElementById("fat-percent").textContent = nutrition.fat_percent + "%";
+      }
+    });
+  </script>
 </body>
 </html>

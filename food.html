@@ -6,6 +6,13 @@
   <title>Input Makanan - Velora</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#537D5D" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/assets/icon-512.png" />
+  <link rel="icon" href="/assets/icon-192.png" />
   <style>
     body {
       font-family: 'Georgia', serif;
@@ -19,6 +26,7 @@
       max-width: 430px;
       margin: 0 auto;
       min-height: 100vh;
+      padding-bottom: 90px;
     }
     .input-field {
       transition: all 0.3s ease;
@@ -50,9 +58,6 @@
       color: white;
       transform: scale(1.1);
     }
-    .add-food-animation {
-      animation: slideUp 0.5s ease-out;
-    }
     .navbar-icon {
       transition: all 0.2s ease-in-out;
     }
@@ -64,20 +69,42 @@
       color: #537D5D;
       font-weight: 600;
     }
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+    @media (max-width: 480px) {
+      .velora-container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-bottom: 80px;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+      h1, h2 {
+        font-size: 1rem;
+      }
+      .text-lg {
+        font-size: 1rem !important;
+      }
+      .text-2xl {
+        font-size: 1.25rem !important;
+      }
+      .rounded-2xl {
+        border-radius: 1rem;
+      }
+      .p-6 {
+        padding: 1rem !important;
+      }
+      .mx-6 {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      .mb-6 {
+        margin-bottom: 1rem !important;
+      }
+      .mb-8 {
+        margin-bottom: 1.5rem !important;
       }
     }
   </style>
 </head>
 <body>
-  <div class="velora-container pb-20">
+  <div class="velora-container">
     <!-- Header -->
     <div class="flex items-center justify-between p-6 bg-white shadow-sm">
       <button onclick="goBack()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
@@ -89,9 +116,9 @@
       <div class="w-10"></div>
     </div>
 
-    <div class="p-6 space-y-6">
+    <div class="p-4 sm:p-6 space-y-6">
       <!-- Waktu Makan -->
-      <div class="bg-white rounded-2xl p-6 shadow-sm">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
         <h2 class="text-lg font-semibold text-[#537D5D] mb-4">Waktu Makan</h2>
         <div class="grid grid-cols-2 gap-3">
           <button class="meal-time-btn py-3 px-4 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm font-medium text-[#537D5D]" onclick="selectMealTime(this, 'sarapan')">
@@ -110,7 +137,7 @@
       </div>
 
       <!-- Nama Makanan -->
-      <div class="bg-white rounded-2xl p-6 shadow-sm">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
         <h2 class="text-lg font-semibold text-[#537D5D] mb-4">Nama Makanan</h2>
         <div class="space-y-4">
           <input 
@@ -119,36 +146,22 @@
             placeholder="Cari atau ketik nama makanan..."
             class="input-field w-full p-4 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D]"
             oninput="searchFood(this.value)"
+            autocomplete="off"
           >
           
           <!-- Search Results -->
-          <div id="searchResults" class="space-y-2 max-h-40 overflow-y-auto hidden">
-            <!-- Results will be populated by JavaScript -->
-          </div>
+          <div id="searchResults" class="space-y-2 max-h-40 overflow-y-auto hidden"></div>
           
           <!-- Popular Foods -->
           <div id="popularFoods" class="space-y-2">
             <p class="text-sm text-gray-600 font-poppins mb-3">Makanan Populer:</p>
-            <div class="space-y-2">
-              <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors" onclick="selectFood('Nasi Putih', 150)">
-                <span class="font-poppins text-sm">Nasi Putih</span>
-                <span class="text-xs text-gray-600">150 kcal/porsi</span>
-              </div>
-              <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors" onclick="selectFood('Ayam Goreng', 280)">
-                <span class="font-poppins text-sm">Ayam Goreng</span>
-                <span class="text-xs text-gray-600">280 kcal/porsi</span>
-              </div>
-              <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors" onclick="selectFood('Soto Ayam', 200)">
-                <span class="font-poppins text-sm">Soto Ayam</span>
-                <span class="text-xs text-gray-600">200 kcal/porsi</span>
-              </div>
-            </div>
+            <div id="popularFoodsList" class="space-y-2"></div>
           </div>
         </div>
       </div>
 
       <!-- Porsi -->
-      <div class="bg-white rounded-2xl p-6 shadow-sm">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
         <h2 class="text-lg font-semibold text-[#537D5D] mb-4">Porsi</h2>
         <div class="space-y-4">
           <!-- Quick Portion Buttons -->
@@ -170,24 +183,24 @@
           <!-- Custom Portion Input -->
           <div class="flex items-center gap-3 flex-wrap">
             <span class="font-poppins text-sm text-gray-600 min-w-fit">Atau masukkan:</span>
-                <div class="flex items-center gap-2">
-                    <input 
-                    type="number" 
-                    id="customPortion"
-                    placeholder="1.0"
-                    step="0.1"
-                    min="0.1"
-                    class="w-24 p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D] text-center"
-                    oninput="updateCustomPortion(this.value)"
-                    >
-                    <span class="font-poppins text-sm text-gray-600">porsi</span>
-                </div>
+            <div class="flex items-center gap-2">
+              <input 
+                type="number" 
+                id="customPortion"
+                placeholder="1.0"
+                step="0.1"
+                min="0.1"
+                class="w-24 p-3 border-2 border-[#DDD5A7] rounded-lg font-poppins text-sm focus:outline-none focus:border-[#537D5D] text-center"
+                oninput="updateCustomPortion(this.value)"
+              >
+              <span class="font-poppins text-sm text-gray-600">porsi</span>
             </div>
+          </div>
         </div>
       </div>
 
       <!-- Kalori Display -->
-      <div class="bg-white rounded-2xl p-6 shadow-sm">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2">
@@ -209,23 +222,11 @@
       >
         TAMBAH MAKANAN
       </button>
-
-      <!-- Added Foods List -->
-      <div id="addedFoodsList" class="space-y-3"></div>
-
-      <!-- Save Button -->
-      <button 
-        id="saveBtn"
-        onclick="saveFoods()"
-        class="w-full py-4 bg-[#537D5D] text-white font-poppins font-semibold rounded-lg uppercase text-sm shadow-sm hover:bg-[#4a6b54] transition-all duration-300 hover:transform hover:scale-105 hidden"
-      >
-        SIMPAN SEMUA
-      </button>
     </div>
   </div>
 
   <!-- Bottom Navigation Bar -->
-  <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-200 px-6 py-2 shadow-lg">
+  <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-200 px-2 sm:px-6 py-2 shadow-lg z-50">
     <div class="flex justify-around items-center">
       <!-- Dashboard -->
       <button onclick="location.href='dashboard.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
@@ -237,7 +238,6 @@
         </svg>
         <span class="navbar-text text-xs font-poppins text-gray-500">Dashboard</span>
       </button>
-
       <!-- Makanan -->
       <button onclick="location.href='food.html'" class="navbar-item active flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
         <svg class="navbar-icon w-6 h-6 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -249,7 +249,6 @@
         </svg>
         <span class="navbar-text text-xs font-poppins">Makanan</span>
       </button>
-
       <!-- Laporan -->
       <button onclick="location.href='report.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
         <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -258,11 +257,10 @@
         </svg>
         <span class="navbar-text text-xs font-poppins text-gray-500">Laporan</span>
       </button>
-
       <!-- Profil -->
       <button onclick="location.href='profile.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
         <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4-4v2"/>
           <circle cx="12" cy="7" r="4"/>
         </svg>
         <span class="navbar-text text-xs font-poppins text-gray-500">Profil</span>
@@ -270,40 +268,81 @@
     </div>
   </nav>
 
-
   <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js').then(function (registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+      window.location.href = "desktop.html";
+    }
+
     let selectedMealTime = '';
     let selectedFood = { name: '', calories: 0 };
     let selectedPortion = 1;
-    let addedFoods = [];
-
-    // Sample food database
-    const foodDatabase = [
-      { name: 'Nasi Putih', calories: 150 },
-      { name: 'Nasi Merah', calories: 110 },
-      { name: 'Ayam Goreng', calories: 280 },
-      { name: 'Ayam Bakar', calories: 220 },
-      { name: 'Soto Ayam', calories: 200 },
-      { name: 'Soto Banjar', calories: 280 },
-      { name: 'Nasi Padang', calories: 340 },
-      { name: 'Opor Ayam', calories: 440 },
-      { name: 'Gado-gado', calories: 250 },
-      { name: 'Rendang', calories: 320 },
-      { name: 'Ikan Bakar', calories: 180 },
-      { name: 'Tempe Goreng', calories: 160 },
-      { name: 'Tahu Goreng', calories: 140 },
-      { name: 'Sayur Asem', calories: 80 },
-      { name: 'Mie Ayam', calories: 300 }
-    ];
+    let foodDatabase = [];
 
     function goBack() {
       window.history.back();
     }
 
+    // Fetch food database from API
+    async function fetchFoodDatabase() {
+      try {
+        const userId = localStorage.getItem("userId");
+        const res = await fetch(`https://velora-backend-production.up.railway.app/recommendation/${userId}`);
+        const data = await res.json();
+        if (data.status === "success" && data.data) {
+          // Gabungkan semua menu rekomendasi
+          let allMenus = [];
+          ["recommended_breakfast", "recommended_lunch", "recommended_dinner", "recommended_snack"].forEach(type => {
+            if (Array.isArray(data.data[type])) {
+              allMenus = allMenus.concat(data.data[type]);
+            }
+          });
+          // Hilangkan duplikat berdasarkan nama
+          const uniqueMenus = [];
+          const seen = new Set();
+          allMenus.forEach(item => {
+            const name = typeof item === "string" ? item : item.name;
+            if (name && !seen.has(name)) {
+              seen.add(name);
+              uniqueMenus.push(typeof item === "string" ? { name: item, calories: 0 } : item);
+            }
+          });
+          foodDatabase = uniqueMenus;
+          renderPopularFoods();
+        }
+      } catch (e) {
+        foodDatabase = [];
+        renderPopularFoods();
+      }
+    }
+
+    function renderPopularFoods() {
+      const popularFoodsList = document.getElementById('popularFoodsList');
+      if (!foodDatabase.length) {
+        popularFoodsList.innerHTML = '<div class="p-3 text-center text-gray-500 font-poppins text-sm">Tidak ada data makanan</div>';
+        return;
+      }
+      // Tampilkan 3 makanan teratas sebagai populer
+      popularFoodsList.innerHTML = foodDatabase.slice(0, 3).map(food =>
+        `<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors" onclick="selectFood('${food.name.replace(/'/g,"\\'")}', ${food.calories})">
+          <span class="font-poppins text-sm">${food.name}</span>
+          <span class="text-xs text-gray-600">${food.calories} kcal/porsi</span>
+        </div>`
+      ).join('');
+    }
+
     function selectMealTime(btn, mealTime) {
-      // Remove active class from all meal time buttons
       document.querySelectorAll('.meal-time-btn').forEach(b => b.classList.remove('active'));
-      // Add active class to selected button
       btn.classList.add('active');
       selectedMealTime = mealTime;
       updateAddButton();
@@ -312,24 +351,24 @@
     function searchFood(query) {
       const searchResults = document.getElementById('searchResults');
       const popularFoods = document.getElementById('popularFoods');
-      
       if (query.length < 2) {
         searchResults.classList.add('hidden');
         popularFoods.classList.remove('hidden');
         return;
       }
-
-      const results = foodDatabase.filter(food => 
-        food.name.toLowerCase().includes(query.toLowerCase())
-      );
-
+      const results = foodDatabase.filter(food => {
+        const name = typeof food === "string" ? food : food.name;
+        return name && name.toLowerCase().includes(query.toLowerCase());
+      });
       if (results.length > 0) {
-        searchResults.innerHTML = results.map(food => 
-          `<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors" onclick="selectFood('${food.name}', ${food.calories})">
-            <span class="font-poppins text-sm">${food.name}</span>
-            <span class="text-xs text-gray-600">${food.calories} kcal/porsi</span>
-          </div>`
-        ).join('');
+        searchResults.innerHTML = results.map(food => {
+          const name = typeof food === "string" ? food : food.name;
+          const calories = typeof food === "object" && food.calories ? food.calories : 0;
+          return `<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors" onclick="selectFood('${name.replace(/'/g,"\\'")}', ${calories})">
+            <span class="font-poppins text-sm">${name}</span>
+            <span class="text-xs text-gray-600">${calories} kcal/porsi</span>
+          </div>`;
+        }).join('');
         searchResults.classList.remove('hidden');
         popularFoods.classList.add('hidden');
       } else {
@@ -349,9 +388,7 @@
     }
 
     function selectPortion(btn, portion) {
-      // Remove active class from all portion buttons
       document.querySelectorAll('.portion-btn').forEach(b => b.classList.remove('active'));
-      // Add active class to selected button
       btn.classList.add('active');
       selectedPortion = portion;
       document.getElementById('customPortion').value = portion;
@@ -360,7 +397,6 @@
 
     function updateCustomPortion(value) {
       selectedPortion = parseFloat(value) || 1;
-      // Remove active class from all portion buttons
       document.querySelectorAll('.portion-btn').forEach(b => b.classList.remove('active'));
       updateCalories();
     }
@@ -379,137 +415,67 @@
       }
     }
 
-    function addFood() {
+    async function addFood() {
       if (!selectedMealTime || !selectedFood.name) return;
 
-      const foodItem = {
-        mealTime: selectedMealTime,
-        name: selectedFood.name,
-        portion: selectedPortion,
-        calories: Math.round(selectedFood.calories * selectedPortion),
-        caloriesPerPortion: selectedFood.calories
-      };
-
-      addedFoods.push(foodItem);
-      displayAddedFoods();
-      resetForm();
-      
-      // Show save button
-      document.getElementById('saveBtn').classList.remove('hidden');
-    }
-
-    function displayAddedFoods() {
-      const container = document.getElementById('addedFoodsList');
-      
-      if (addedFoods.length === 0) {
-        container.innerHTML = '';
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        alert("User belum login!");
         return;
       }
 
-      const groupedFoods = addedFoods.reduce((groups, food) => {
-        if (!groups[food.mealTime]) {
-          groups[food.mealTime] = [];
-        }
-        groups[food.mealTime].push(food);
-        return groups;
-      }, {});
+      // Mapping meal time ke backend
+      let meal_type = '';
+      if (selectedMealTime === 'sarapan') meal_type = 'breakfast';
+      else if (selectedMealTime === 'makan_siang') meal_type = 'lunch';
+      else if (selectedMealTime === 'makan_malam') meal_type = 'dinner';
+      else if (selectedMealTime === 'camilan') meal_type = 'snack';
 
-      const mealTimeLabels = {
-        'sarapan': '🌅 Sarapan',
-        'makan_siang': '☀️ Makan Siang', 
-        'makan_malam': '🌙 Makan Malam',
-        'camilan': '🍪 Camilan'
+      const foodItem = {
+        user_id: parseInt(userId),
+        meal_type: meal_type,
+        food_name: selectedFood.name,
+        calories: Math.round(selectedFood.calories * selectedPortion)
       };
 
-      let html = '<div class="bg-white rounded-2xl p-6 shadow-sm add-food-animation"><h3 class="text-lg font-semibold text-[#537D5D] mb-4">Makanan yang Ditambahkan</h3>';
-      
-      Object.keys(groupedFoods).forEach(mealTime => {
-        html += `<div class="mb-4"><h4 class="font-poppins font-medium text-[#537D5D] mb-2">${mealTimeLabels[mealTime]}</h4>`;
-        
-        groupedFoods[mealTime].forEach((food, index) => {
-          html += `
-            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg mb-2">
-              <div>
-                <span class="font-poppins text-sm font-medium">${food.name}</span>
-                <div class="text-xs text-gray-600">${food.portion} porsi</div>
-              </div>
-              <div class="text-right">
-                <span class="text-sm font-semibold text-[#537D5D]">${food.calories} kcal</span>
-                <button onclick="removeFood(${addedFoods.indexOf(food)})" class="ml-2 text-red-500 hover:text-red-700">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          `;
+      try {
+        const res = await fetch('https://velora-backend-production.up.railway.app/meals', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(foodItem)
         });
-        
-        html += '</div>';
-      });
-
-      const totalCalories = addedFoods.reduce((sum, food) => sum + food.calories, 0);
-      html += `<div class="border-t pt-3 mt-3"><div class="flex justify-between items-center"><span class="font-poppins font-semibold text-[#537D5D]">Total Kalori</span><span class="text-lg font-bold text-[#537D5D]">${totalCalories} kcal</span></div></div></div>`;
-      
-      container.innerHTML = html;
-    }
-
-    function removeFood(index) {
-      addedFoods.splice(index, 1);
-      displayAddedFoods();
-      
-      if (addedFoods.length === 0) {
-        document.getElementById('saveBtn').classList.add('hidden');
+        const data = await res.json();
+        if (data.status === "success") {
+          alert("Makanan berhasil ditambahkan!");
+          window.location.href = 'dashboard.html';
+        } else {
+          alert("Gagal menambah makanan.");
+        }
+      } catch (e) {
+        alert("Terjadi kesalahan koneksi.");
       }
     }
 
+    // Reset form setelah tambah makanan (tidak dipakai karena langsung redirect)
     function resetForm() {
-      // Reset meal time selection
       document.querySelectorAll('.meal-time-btn').forEach(b => b.classList.remove('active'));
       selectedMealTime = '';
-      
-      // Reset food selection
       document.getElementById('foodName').value = '';
       selectedFood = { name: '', calories: 0 };
-      
-      // Reset portion
       document.querySelectorAll('.portion-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.portion-btn')[1].classList.add('active'); // Select 1 porsi by default
+      document.querySelectorAll('.portion-btn')[1].classList.add('active');
       selectedPortion = 1;
       document.getElementById('customPortion').value = '1';
-      
-      // Reset calories display
       document.getElementById('totalCalories').textContent = '0';
-      
-      // Hide search results
       document.getElementById('searchResults').classList.add('hidden');
       document.getElementById('popularFoods').classList.remove('hidden');
-      
       updateAddButton();
     }
 
-    function saveFoods() {
-      if (addedFoods.length === 0) return;
-      
-      // Here you would typically send the data to your backend
-      // For now, we'll just show a success message
-      alert(`Berhasil menyimpan ${addedFoods.length} makanan!`);
-      
-      // Reset everything
-      addedFoods = [];
-      displayAddedFoods();
-      document.getElementById('saveBtn').classList.add('hidden');
-      
-      // Optional: redirect back to dashboard
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 1000);
-    }
-
-    // Initialize with default portion
+    // Inisialisasi
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.portion-btn')[1].classList.add('active');
+      fetchFoodDatabase();
     });
   </script>
 </body>

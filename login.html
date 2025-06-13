@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velora - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#537D5D" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/assets/icon-512.png" />
+  <link rel="icon" href="/assets/icon-192.png" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #FAF6E9 0%, #F0ECE0 100%);
+      color: #333;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    .velora-container {
+      max-width: 430px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .decorative-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(135deg, rgba(83, 125, 93, 0.05) 0%, rgba(123, 160, 91, 0.08) 100%);
+      border-radius: 0 0 50% 50%;
+      transform: scale(1.2);
+      z-index: -1;
+    }
+
+    .logo-container {
+      background: linear-gradient(135deg, #537D5D 0%, #7BA05B 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+
+    .logo-container::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #537D5D 0%, #7BA05B 100%);
+      border-radius: 50%;
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 40px rgba(83, 125, 93, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .login-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 25px 50px rgba(83, 125, 93, 0.15);
+    }
+
+    .google-btn-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .google-btn-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    .google-btn-container:hover::before {
+      left: 100%;
+    }
+
+    .floating-elements {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .floating-elements::before,
+    .floating-elements::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(83, 125, 93, 0.1), rgba(123, 160, 91, 0.1));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-elements::before {
+      width: 120px;
+      height: 120px;
+      top: 15%;
+      right: -30px;
+      animation-delay: 0s;
+    }
+
+    .floating-elements::after {
+      width: 180px;
+      height: 180px;
+      bottom: 15%;
+      left: -40px;
+      animation-delay: 3s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(180deg); }
+    }
+
+    .welcome-text {
+      background: linear-gradient(135deg, #666 0%, #333 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .signup-link {
+      position: relative;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .signup-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #537D5D 0%, #7BA05B 100%);
+      transition: width 0.3s ease;
+    }
+
+    .signup-link:hover::after {
+      width: 100%;
+    }
+
+    .pulse-effect {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(83, 125, 93, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(83, 125, 93, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(83, 125, 93, 0); }
+    }
+
+    .terms-link {
+      color: #537D5D;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .terms-link:hover {
+      color: #7BA05B;
+    }
+
+    .terms-link::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #7BA05B;
+      transition: width 0.3s ease;
+    }
+
+    .terms-link:hover::after {
+      width: 100%;
+    }
+
+    /* Custom Google Button Styling */
+    .g_id_signin {
+      border-radius: 12px !important;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .g_id_signin:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 480px) {
+      .velora-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        max-width: 100%;
+      }
+      
+      .login-card {
+        margin: 0;
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+      }
+      
+      .logo-container h1 {
+        font-size: 2.5rem;
+      }
+      
+      .welcome-text {
+        font-size: 1rem;
+      }
+
+      .text-center h2 {
+        font-size: 1rem;
+      }
+
+      .text-center p {
+        font-size: 0.875rem;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .velora-container {
+        justify-content: flex-start;
+        padding-top: 2rem;
+      }
+      
+      .text-center.pt-8 {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+      
+      .mb-8 {
+        margin-bottom: 1rem;
+      }
+    }
+
+    /* Icon Styles */
+    .feature-icon {
+      background: linear-gradient(135deg, #537D5D 0%, #7BA05B 100%);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .feature-icon:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="velora-container relative">
+    <!-- Floating Background Elements -->
+    <div class="floating-elements"></div>
+    
+    <!-- Decorative Background -->
+    <div class="decorative-bg"></div>
+
+    <!-- Header Section -->
+    <div class="text-center pt-8 pb-6 px-6">
+      <div class="mb-8">
+        <div class="logo-container mb-3">
+          <h1 class="text-4xl font-bold tracking-wide">Velora</h1>
+        </div>
+        <p class="welcome-text text-base font-medium">Selamat datang kembali!</p>
+        <p class="text-gray-500 text-sm mt-1 font-light">Masuk untuk melanjutkan perjalanan Anda</p>
+      </div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="px-6 flex-1 flex flex-col justify-center">
+      <div class="login-card rounded-3xl p-6 mb-6">
+        <!-- Google Sign-In Section -->
+        <div id="g_id_onload"
+          data-client_id="914053752476-5ke4eror7n593mbtbqr8qfnqusllb4ss.apps.googleusercontent.com"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-callback="handleCredentialResponse"
+          data-auto_prompt="false">
+        </div>
+        
+        <div class="text-center mb-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">Masuk dengan Google</h2>
+          <p class="text-sm text-gray-600 font-light">Akses cepat dan aman ke akun Anda</p>
+        </div>
+
+        <div class="google-btn-container rounded-xl mb-4">
+          <div class="g_id_signin pulse-effect"
+            data-type="standard"
+            data-shape="pill"
+            data-theme="outline"
+            data-text="signin_with"
+            data-size="large"
+            data-logo_alignment="left"
+            data-width="300">
+          </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="grid grid-cols-3 gap-3 mb-4">
+          <div class="text-center">
+            <div class="feature-icon w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">Hidup Sehat</p>
+          </div>
+          <div class="text-center">
+            <div class="feature-icon w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">Tracking</p>
+          </div>
+          <div class="text-center">
+            <div class="feature-icon w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <p class="text-xs text-gray-700 font-medium">Komunitas</p>
+          </div>
+        </div>
+
+        <!-- Welcome Back Message -->
+        <p class="text-xs text-gray-500 text-center font-light">
+          Lanjutkan perjalanan sehat Anda dengan 
+          <a href="#" class="terms-link">Velora</a>.
+        </p>
+      </div>
+
+      <!-- Sign Up Link -->
+      <div class="text-center pb-6">
+        <p class="text-sm text-gray-600 font-light mb-3">
+          Belum punya akun?
+        </p>
+        <a href="signup.html" class="signup-link text-[#537D5D] font-semibold text-base hover:text-[#7BA05B] transition-colors duration-300">
+          Daftar sekarang →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function handleCredentialResponse(response) {
+      const data = parseJwt(response.credential);
+      console.log("Data dari Google:", data);
+
+      // Kirim ke server/backend kamu
+      fetch("https://velora-backend-production.up.railway.app/auth/google", { // <--- UBAH DI SINI!
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: "include",
+        body: JSON.stringify({
+          google_id: data.sub,
+          name: data.name,
+          email: data.email,
+          picture_url: data.picture
+        })
+      })
+      .then(res => res.json())
+      .then(result => {
+        console.log("Login berhasil:", result);
+
+        if (result.data && result.data.userId) {
+          // Simpan data ke localStorage
+          localStorage.setItem("userId", result.data.userId);
+          localStorage.setItem("name", data.name);
+          localStorage.setItem("email", data.email);
+          localStorage.setItem("picture", data.picture);
+
+          // Redirect ke dashboard
+          window.location.href = "dashboard.html";
+        } else {
+          console.error("Response tidak mengandung userId:", result);
+          alert("Gagal menyimpan data. Silakan coba lagi.");
+        }
+      })
+      .catch(err => {
+        console.error("Login gagal:", err);
+        alert("Terjadi kesalahan saat login.");
+      });
+    }
+
+    // Helper: decode JWT
+    function parseJwt(token) {
+      var base64Url = token.split('.')[1];
+      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    }
+  </script>
+</body>
+</html>
