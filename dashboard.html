@@ -296,7 +296,7 @@
       // 2. Konsumsi makanan & olahraga hari ini
       let kaloriMakanan = 0, kaloriOlahraga = 0;
       try {
-        const res = await fetch(`/api/meals/${userId}/today`);
+        const res = await fetch(`https://velora-backend-production.up.railway.app/meals/${userId}/today`);
         const data = await res.json();
         if (data.status === "success" && data.data && Array.isArray(data.data.meals)) {
           data.data.meals.forEach(item => {
