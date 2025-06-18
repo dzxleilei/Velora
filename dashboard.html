@@ -6,6 +6,13 @@
   <title>Velora Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#537D5D" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/assets/icon-512.png" />
+  <link rel="icon" href="/assets/icon-192.png" />
   <style>
     body {
       font-family: 'Georgia', serif;
@@ -19,7 +26,7 @@
       max-width: 430px;
       margin: 0 auto;
       min-height: 100vh;
-      padding-bottom: 90px; /* Space for fixed navbar */
+      padding-bottom: 90px;
     }
     #dateNav::-webkit-scrollbar {
       display: none;
@@ -34,6 +41,38 @@
     .navbar-item.active .navbar-text {
       color: #537D5D;
       font-weight: 600;
+    }
+    @media (max-width: 480px) {
+      .velora-container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-bottom: 80px;
+      }
+      h1, h2 {
+        font-size: 1rem;
+      }
+      .text-lg {
+        font-size: 1rem !important;
+      }
+      .text-2xl {
+        font-size: 1.25rem !important;
+      }
+      .rounded-2xl {
+        border-radius: 1rem;
+      }
+      .p-6 {
+        padding: 1rem !important;
+      }
+      .mx-6 {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      .mb-6 {
+        margin-bottom: 1rem !important;
+      }
+      .mb-8 {
+        margin-bottom: 1.5rem !important;
+      }
     }
   </style>
 </head>
@@ -56,51 +95,40 @@
     <div id="dateNav" class="flex gap-4 overflow-x-auto px-6 mb-6"></div>
 
     <!-- Kalori Section -->
-    <div class="mx-6 mb-6 bg-white rounded-2xl p-6 shadow-sm">
+    <div id="kalori-section" class="mx-2 sm:mx-6 mb-6 bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
       <div class="flex items-center mb-4">
         <img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2">
         <h2 class="text-lg font-semibold text-[#537D5D]">Kalori</h2>
       </div>
       <div class="flex justify-between items-center">
         <div class="text-center">
-          <div class="text-2xl font-bold text-black mb-1">300</div>
+          <div id="kalori-makanan" class="text-2xl font-bold text-black mb-1">...</div>
           <div class="text-sm text-gray-600 font-poppins">Makanan</div>
         </div>
         <div class="text-center">
-          <div class="text-2xl font-bold text-black mb-1">122</div>
+          <div id="kalori-olahraga" class="text-2xl font-bold text-black mb-1">...</div>
           <div class="text-sm text-gray-600 font-poppins">Olahraga</div>
         </div>
         <div class="text-center">
-          <div class="text-2xl font-bold text-black mb-1">1888</div>
+          <div id="kalori-sisa" class="text-2xl font-bold text-black mb-1">...</div>
           <div class="text-sm text-gray-600 font-poppins">Tersisa</div>
         </div>
       </div>
     </div>
 
-    <!-- Rekomendasi Makan Siang -->
-    <div class="mx-6 mb-6 bg-white rounded-2xl p-6 shadow-sm">
+    <!-- Rekomendasi Makan (dinamis sesuai jam) -->
+    <div id="meal-section" class="mx-2 sm:mx-6 mb-6 bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
       <div class="flex items-center mb-4">
         <img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2">
-        <h2 class="text-lg font-semibold text-[#537D5D]">Rekomendasi Makan Siang</h2>
+        <h2 id="meal-title" class="text-lg font-semibold text-[#537D5D]">Rekomendasi Makan</h2>
       </div>
-      <div class="space-y-3">
-        <div class="flex justify-between items-center">
-          <span class="font-poppins text-black text-lg">Soto Banjar</span>
-          <span class="text-sm text-gray-600">280 kcal</span>
-        </div>
-        <div class="flex justify-between items-center">
-          <span class="font-poppins text-black text-lg">Nasi Padang</span>
-          <span class="text-sm text-gray-600">340 kcal</span>
-        </div>
-        <div class="flex justify-between items-center">
-          <span class="font-poppins text-black text-lg">Opor Ayam</span>
-          <span class="text-sm text-gray-600">440 kcal</span>
-        </div>
+      <div id="meal-list" class="space-y-3">
+        <div class="text-gray-400 text-sm">Memuat...</div>
       </div>
     </div>
 
     <!-- Rekomendasi Olahraga -->
-    <div class="mx-6 mb-6 bg-white rounded-2xl p-6 shadow-sm">
+    <div id="workout-section" class="mx-2 sm:mx-6 mb-6 bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
       <div class="flex items-center mb-4">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#537D5D" stroke-width="2" class="mr-2">
           <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 9 5.16.74 9-3.45 9-9V7l-10-5z"/>
@@ -108,39 +136,19 @@
         </svg>
         <h2 class="text-lg font-semibold text-[#537D5D]">Rekomendasi Olahraga</h2>
       </div>
-      <div class="space-y-3">
-        <div class="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-l-4 border-[#7BA05B]">
-          <div>
-            <span class="font-poppins text-black text-lg">Jalan Santai</span>
-            <div class="text-xs text-gray-600 font-poppins">30 menit</div>
-          </div>
-          <span class="text-sm text-[#537D5D] font-semibold">120 kcal</span>
-        </div>
-        <div class="flex justify-between items-center p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border-l-4 border-blue-400">
-          <div>
-            <span class="font-poppins text-black text-lg">Berenang</span>
-            <div class="text-xs text-gray-600 font-poppins">20 menit</div>
-          </div>
-          <span class="text-sm text-blue-600 font-semibold">200 kcal</span>
-        </div>
-        <div class="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border-l-4 border-orange-400">
-          <div>
-            <span class="font-poppins text-black text-lg">Bersepeda</span>
-            <div class="text-xs text-gray-600 font-poppins">25 menit</div>
-          </div>
-          <span class="text-sm text-orange-600 font-semibold">150 kcal</span>
-        </div>
+      <div id="workout-list" class="space-y-3">
+        <div class="text-gray-400 text-sm">Memuat...</div>
       </div>
     </div>
 
     <!-- Histori Berat Badan -->
-    <div class="mx-6 mb-6 bg-white rounded-2xl p-6 shadow-sm">
+    <div class="mx-2 sm:mx-6 mb-6 bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
       <div class="flex items-center mb-4">
         <img src="assets/fire.png" alt="fire icon" width="20" height="20" class="mr-2">
         <h2 class="text-lg font-semibold text-[#537D5D]">Histori Berat Badan</h2>
       </div>
       <div class="relative h-32 mb-4">
-        <svg width="100%" height="128" viewBox="0 0 300 128" class="overflow-visible">
+        <svg class="w-full h-auto overflow-visible" width="100%" height="128" viewBox="0 0 300 128">
           <line x1="0" y1="20" x2="300" y2="20" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
           <line x1="0" y1="40" x2="300" y2="40" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
           <line x1="0" y1="60" x2="300" y2="60" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="5,5"/>
@@ -151,9 +159,9 @@
           <circle cx="20" cy="40" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
           <circle cx="150" cy="55" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
           <circle cx="280" cy="80" r="4" fill="white" stroke="#7BA05B" stroke-width="2"/>
-          <text x="20" y="30" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">60kg</text>
-          <text x="150" y="45" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">57.5kg</text>
-          <text x="280" y="70" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">55kg</text>
+          <text id="weight-awal" x="20" y="30" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">...</text>
+          <text id="weight-mid" x="150" y="45" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">...</text>
+          <text id="weight-target" x="280" y="70" text-anchor="middle" class="text-xs font-semibold fill-current text-[#537D5D]">...</text>
         </svg>
       </div>
       <div class="flex justify-between text-xs text-gray-600 font-poppins">
@@ -164,7 +172,7 @@
     </div>
 
     <!-- Tombol Input Makanan -->
-    <div class="mx-6 mb-8">
+    <div class="mx-2 sm:mx-6 mb-8">
       <a href="food.html">
         <button class="w-full py-4 bg-[#DDD5A7] text-[#537D5D] font-poppins font-semibold rounded-lg uppercase text-sm shadow-sm hover:bg-[#D4CB98] transition-colors">
           INPUT MAKANAN
@@ -174,7 +182,7 @@
   </div>
 
   <!-- Bottom Navigation Bar -->
-  <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-200 px-6 py-2 shadow-lg">
+  <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-200 px-2 sm:px-6 py-2 shadow-lg z-50">
     <div class="flex justify-around items-center">
       <!-- Dashboard -->
       <button onclick="location.href='dashboard.html'" class="navbar-item active flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
@@ -186,7 +194,6 @@
         </svg>
         <span class="navbar-text text-xs font-poppins">Dashboard</span>
       </button>
-
       <!-- Makanan -->
       <button onclick="location.href='food.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
         <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -198,7 +205,6 @@
         </svg>
         <span class="navbar-text text-xs font-poppins text-gray-500">Makanan</span>
       </button>
-
       <!-- Laporan -->
       <button onclick="location.href='report.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
         <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -207,7 +213,6 @@
         </svg>
         <span class="navbar-text text-xs font-poppins text-gray-500">Laporan</span>
       </button>
-
       <!-- Profil -->
       <button onclick="location.href='profile.html'" class="navbar-item flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200">
         <svg class="navbar-icon w-6 h-6 mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -221,6 +226,21 @@
 
   <!-- Scripts -->
   <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js').then(function (registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+      window.location.href = "desktop.html";
+    }
+
     // Script Tanggal Otomatis
     const dateNav = document.getElementById("dateNav");
     const hari = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
@@ -254,7 +274,120 @@
       dateItem.appendChild(numberSpan);
       dateNav.appendChild(dateItem);
     }
-  </script>
 
+    // === DASHBOARD DINAMIS ===
+    document.addEventListener("DOMContentLoaded", async function() {
+      const userId = localStorage.getItem("userId");
+      if (!userId || isNaN(Number(userId))) {
+      alert("User belum login atau userId tidak valid!");
+      window.location.href = "login.html"; // atau halaman login kamu
+      return;
+    }
+//
+
+      // 1. Target kalori
+      let targetCalories = 2000;
+      try {
+        const res = await fetch(`https://velora-backend-production.up.railway.app/recommendation/${userId}/calories`);
+        const data = await res.json();
+        if (data.status === "success") targetCalories = data.data.target_calories;
+      } catch {}
+
+      // 2. Konsumsi makanan & olahraga hari ini
+      let kaloriMakanan = 0, kaloriOlahraga = 0;
+      try {
+        const res = await fetch(`https://velora-backend-production.up.railway.app/meals/${userId}/today`);
+        const data = await res.json();
+        if (data.status === "success" && data.data && Array.isArray(data.data.meals)) {
+          data.data.meals.forEach(item => {
+            if (item.type === "food" || !item.type) kaloriMakanan += item.calories;
+            if (item.type === "exercise" || item.type === "workout") kaloriOlahraga += item.calories;
+          });
+        }
+      } catch {}
+
+      // 3. Update section kalori
+      document.getElementById("kalori-makanan").textContent = kaloriMakanan;
+      document.getElementById("kalori-olahraga").textContent = kaloriOlahraga;
+      document.getElementById("kalori-sisa").textContent = targetCalories - kaloriMakanan + kaloriOlahraga;
+
+      // 4. Rekomendasi makan dinamis sesuai jam
+      try {
+  const now = new Date();
+  const hour = now.getHours();
+  let mealType = "lunch";
+  let mealTitle = "Rekomendasi Makan Siang";
+  if (hour >= 5 && hour < 11) {
+    mealType = "breakfast";
+    mealTitle = "Rekomendasi Sarapan";
+  } else if (hour >= 11 && hour < 15) {
+    mealType = "lunch";
+    mealTitle = "Rekomendasi Makan Siang";
+  } else if (hour >= 15 && hour < 19) {
+    mealType = "dinner";
+    mealTitle = "Rekomendasi Makan Malam";
+  } else {
+    mealType = "snack";
+    mealTitle = "Rekomendasi Snack";
+  }
+  document.getElementById("meal-title").textContent = mealTitle;
+  const mealList = document.getElementById("meal-list");
+  mealList.innerHTML = '<div class="text-gray-400 text-sm">Memuat...</div>';
+
+  const res = await fetch(`https://velora-backend-production.up.railway.app/recommendations/${userId}/${mealType}`);
+  const data = await res.json();
+  if (data.status === "success") {
+    const menus = data.data.recommended_menus || [];
+    mealList.innerHTML = "";
+    menus.forEach(item => {
+      mealList.innerHTML += `
+        <div class="flex justify-between items-center">
+          <span class="font-poppins text-black text-lg">${item.name || item}</span>
+          <span class="text-sm text-gray-600">${item.calories ? item.calories + " kcal" : ""}</span>
+        </div>`;
+    });
+    if (menus.length === 0) mealList.innerHTML = '<div class="text-gray-400 text-sm">Tidak ada rekomendasi.</div>';
+    // Jika ingin tampilkan sisa kalori meal ini:
+    if (typeof data.data.remaining_calories !== "undefined") {
+      mealList.innerHTML += `<div class="mt-2 text-xs text-[#537D5D] font-poppins">Sisa kalori untuk ${mealTitle.toLowerCase()}: <b>${data.data.remaining_calories} kcal</b></div>`;
+    }
+  }
+} catch {}
+
+      // 5. Rekomendasi olahraga
+      try {
+        const res = await fetch(`https://velora-backend-production.up.railway.app/recommendation/${userId}/workout`);
+        const data = await res.json();
+        if (data.status === "success") {
+          const workouts = data.data.recommendations || [];
+          const workoutList = document.getElementById("workout-list");
+          workoutList.innerHTML = "";
+          workouts.forEach(item => {
+            workoutList.innerHTML += `
+              <div class="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-l-4 border-[#7BA05B]">
+                <div>
+                  <span class="font-poppins text-black text-lg">${item.latihan}</span>
+                  <div class="text-xs text-gray-600 font-poppins">${item.rata_durasi_menit} menit</div>
+                </div>
+                <span class="text-sm text-[#537D5D] font-semibold">${item.rata_kalori_terbakar} kcal</span>
+              </div>`;
+          });
+          if (workouts.length === 0) workoutList.innerHTML = '<div class="text-gray-400 text-sm">Tidak ada rekomendasi.</div>';
+        }
+      } catch {}
+
+      // 6. Histori berat badan (datar)
+      try {
+        const res = await fetch(`https://velora-backend-production.up.railway.app/user-profile/${userId}`);
+        const data = await res.json();
+        if (data.status === "success") {
+          const profile = data.data;
+          document.getElementById("weight-awal").textContent = profile.weight_kg + "kg";
+          document.getElementById("weight-target").textContent = profile.target_weight_kg + "kg";
+          document.getElementById("weight-mid").textContent = ((profile.weight_kg + profile.target_weight_kg) / 2).toFixed(1) + "kg";
+        }
+      } catch {}
+    });
+  </script>
 </body>
 </html>
